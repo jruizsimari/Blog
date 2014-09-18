@@ -1,0 +1,3 @@
+HelloTheWorld:
+    path:    /hello-world
+    defaults: { _controller: SdzBlogBundle:Blog:index }
