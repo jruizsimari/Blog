@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<title>Lecture de l'article {{ id }}</title>
+</head>
+<body>
+	<h1>Hello Article n° {{ id }}</h1>
+	{% for message in app.session.flashbag.get('info')%}
+		<p>{{ message }}</p>
+	{% endfor %}
+	<p>Ici nous pourrons lire l'article ayant comme id : {{ id }}</p>
+</body>
+</html>

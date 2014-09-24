@@ -5,8 +5,9 @@
 	<title>Bienvenue sur ma première page avec le Site du Zéro</title>
 </head>
 <body>
+	<a href="{{ url('sdzblog_voir', { 'id': 1 }) }}">Lien vers l'article d'id 1</a>
+	<p>On est sur la page {{ page }}</p>
 	<h1>Hello World</h1>
-	<p>je m'appelle {{ nom }}</p>
 	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio maxime aliquam animi cupiditate, voluptatibus neque quos quam, assumenda numquam accusamus nulla expedita unde ratione praesentium dolorem magni recusandae non libero!</p>
 </body>
 </html>
