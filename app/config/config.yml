@@ -25,6 +25,10 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    #définir des paramètres globaux à injecter dans twig
+    globals:
+        webmaster: %app_webmaster%
+        mail: %app_mail%
 
 # Assetic Configuration
 assetic:

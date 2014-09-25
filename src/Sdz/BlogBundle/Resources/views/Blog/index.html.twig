@@ -1,13 +1,19 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-	<meta charset="UTF-8">
-	<title>Bienvenue sur ma première page avec le Site du Zéro</title>
-</head>
-<body>
-	<a href="{{ url('sdzblog_voir', { 'id': 1 }) }}">Lien vers l'article d'id 1</a>
-	<p>On est sur la page {{ page }}</p>
-	<h1>Hello World</h1>
-	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio maxime aliquam animi cupiditate, voluptatibus neque quos quam, assumenda numquam accusamus nulla expedita unde ratione praesentium dolorem magni recusandae non libero!</p>
-</body>
-</html>
+{% extends 'SdzBlogBundle::layout.html.twig' %}
+
+{% block title %}Accueil - {{ parent() }}{% endblock %}
+
+{% block sdzblog_body %}
+	<h2></h2>
+	<ul>
+		{% for article in articles %}
+			<li>
+				<a href="{{ path('sdzblog_voir', {'id': article.id }) }}">{{ article.titre }}</a>
+				par {{ article.auteur }},
+				le {{ article.date|date('d/m/Y') }}
+			</li>
+		{% else %}
+			<li>Pas encore d'articles</li>
+		{% endfor %}
+	</ul>
+{% endblock %}
+
