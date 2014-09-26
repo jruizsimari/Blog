@@ -48,7 +48,21 @@ class BlogController extends Controller
 	}
 
 	public function ajouterAction() {
+
+		// Le message n'est pas un spam, on continue l'action...
+
 		if( $this->get('request')->getMethod() === 'POST') {
+
+			// contenu saisi par l'utilisateur
+			$contenu = 'bla@hotmail.fr, bli@hotmail.com, johndoe@gmail.com';
+
+			// On récupère le service antispam
+			$antispam = $this->container->get('sdz_blog.antispam');
+
+			if($antispam->isSpam($contenu)) {
+				throw new Exception('Votre message a été détecté comme spam !');
+			}
+
 			// Ici, on s'occupera de la création et de la gestion du formulaire
 			$this->get('session')->getFlashBag()->add('notice', 'Article bien enregistré');
 
