@@ -5,14 +5,31 @@ namespace Sdz\BlogBundle\Antispam;
 
 class SdzAntispam
 {
+
+	protected $mailer;
+	protected $locale;
+	protected $nbForSpam;
+
+	public function __construct(\Swift_Mailer $mailer, $locale, $nbForSpam) {
+		$this->mailer = $mailer;
+		$this->locale = $locale;
+		$this->nbForSpam = $nbForSpam;
+	}
+
 	/**
 	* Vérifie si le texte est un spam ou non
 	* Un texte est considéré comme spam à partir de 3 liens
 	* ou adresses e-mail dans son contenu
 	*/
 	public function isSpam($text) {
-		return ($this->countLinks($text) + $this->countMails($text)) >= 3;
+
+		// On pourrait également utiliser $this->mailer pour prévenir d'un spam 
+		// l'administrateur par exemple
+
+		return ($this->countLinks($text) + $this->countMails($text)) >= $this->nbForSpam;
 	}
+
+
 
 	/**
 	 * Compte les URL de $text
