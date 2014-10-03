@@ -26,6 +26,7 @@ class SdzAntispam
 		// On pourrait également utiliser $this->mailer pour prévenir d'un spam 
 		// l'administrateur par exemple
 
+		// On utilise maintenant l'argument $this->nbForSpam et non plus le "3" en dur 
 		return ($this->countLinks($text) + $this->countMails($text)) >= $this->nbForSpam;
 	}
 
