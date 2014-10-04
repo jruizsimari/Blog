@@ -4,7 +4,8 @@
 	<meta http-equiv=-"Content-Type" content="text/html; charset=UTF-8">
 	<title>{% block title %}Sdz{% endblock %}</title>
 
-	{% stylesheets '@SdzBlogBundle/Resources/public/css/app.css'
+	{% stylesheets filter='cssrewrite'
+	'@SdzBlogBundle/Resources/public/css/app.css'
 	'css/bootstrap.min.css' %}
 		<link rel="stylesheet" href="{{ asset_url }}" type="text/css">
 	{% endstylesheets %}
