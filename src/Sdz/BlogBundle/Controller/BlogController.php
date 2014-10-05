@@ -9,6 +9,7 @@ use Sdz\BlogBundle\Entity\Article;
 use Sdz\BlogBundle\Entity\Image;
 use Sdz\BlogBundle\Entity\Commentaire;
 use Sdz\BlogBundle\Entity\Categorie;
+use Sdz\BlogBundle\Entity\ArticleCompetence;
 
 class BlogController extends Controller
 {
@@ -59,11 +60,15 @@ class BlogController extends Controller
 		// la méthode utilisée recupère tous les commentaires de la table 'commentaire'
 		$liste_commentaires = $em->getRepository('SdzBlogBundle:Commentaire')->findAll();
 
+		// Récupère les compétences d'un article, d'id $article->getId()
+		$liste_articleCompetence = $em->getRepository('SdzBlogBundle:ArticleCompetence')->findByArticle($article->getId());
+
 
 
 		return $this->render('SdzBlogBundle:Blog:voir.html.twig', array(
 							'article'            => $article,
-							'liste_commentaires' => $liste_commentaires));
+							'liste_commentaires' => $liste_commentaires,
+							'liste_articleCompetence' => $liste_articleCompetence));
 	}
 
 	public function ajouterAction() {
@@ -158,12 +163,26 @@ class BlogController extends Controller
 		$article->getImage()->setUrl('http://img1.wikia.nocookie.net/__cb20130517180021/p__/protagonist/images/6/65/Bart_Simpson.png');
 		$article->getImage()->setAlt('Bart Simpson');
 
-		$liste_categories = $em->getRepository('SdzBlogBundle:Categorie')->findAll();
+//		$liste_categories = $em->getRepository('SdzBlogBundle:Categorie')->findAll();
 
-		foreach ($liste_categories as $categorie) {
+		
+//		foreach ($liste_categories as $categorie) {
 			// l'entité $categorie est déclaré en cascade pour le persist
-			$article->addCategorie($categorie); 
+//			$article->addCategorie($categorie); 
 
+//		}
+		
+		$liste_competences = $em->getRepository('SdzBlogBundle:Competence')->findAll();
+
+		foreach ($liste_competences as $i => $competence) {
+
+			$articleCompetence[$i] = new ArticleCompetence();
+			$articleCompetence[$i]->setArticle($article);
+
+			$articleCompetence[$i]->setCompetence($competence);
+			$articleCompetence[$i]->setNiveau('Expert');
+
+			$em->persist($articleCompetence[$i]);
 		}
 
 		// On déclanche la modification en bd

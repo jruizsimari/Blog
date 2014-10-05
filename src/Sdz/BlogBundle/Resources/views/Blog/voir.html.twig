@@ -20,9 +20,25 @@
 		{% if not loop.last %} - {% endif %}
 	{% endfor %}
 {% endif %}
+
 <div class="well">
 	{{ article.contenu }}
 </div>
+
+{% if liste_articleCompetence|length > 0 %}
+<div>
+	Compétences utilisées dans cet article :
+	<ul>
+		{% for articleCompetence in liste_articleCompetence %}
+			{# On déclenche une requete à chaque tour de boucle pour chercher la competence associée à l'article
+			   à cause de l'instruction articleCompetence.competence.nom
+			#}
+			<li>{{ articleCompetence.competence.nom }} : {{ articleCompetence.niveau }}</li>
+		{% endfor %}
+	</ul>
+</div>
+{% endif %}
+
 <p>
 	<a href="{{ path('sdzblog_accueil') }}" class="btn"><i class="icon-chevron-left"></i>Retour à la liste</a>
 	<a href="{{ path('sdzblog_modifier', {'id': article.id}) }}" class="btn"><i class="icon-edit"></i>Modifier l'article</a>
