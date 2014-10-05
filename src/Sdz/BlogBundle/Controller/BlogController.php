@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Sdz\BlogBundle\Entity\Article;
 use Sdz\BlogBundle\Entity\Image;
 use Sdz\BlogBundle\Entity\Commentaire;
+use Sdz\BlogBundle\Entity\Categorie;
 
 class BlogController extends Controller
 {
@@ -156,14 +157,39 @@ class BlogController extends Controller
 		// je modifie l'image 
 		$article->getImage()->setUrl('http://img1.wikia.nocookie.net/__cb20130517180021/p__/protagonist/images/6/65/Bart_Simpson.png');
 		$article->getImage()->setAlt('Bart Simpson');
+
+		$liste_categories = $em->getRepository('SdzBlogBundle:Categorie')->findAll();
+
+		foreach ($liste_categories as $categorie) {
+			// l'entité $categorie est déclaré en cascade pour le persist
+			$article->addCategorie($categorie); 
+
+		}
+
 		// On déclanche la modification en bd
 		$em->flush();
 
-		return $this->render('SdzBlogBundle:Blog:modifier.html.twig', array('article' => $article,));
+		return $this->render('SdzBlogBundle:Blog:modifier.html.twig', array('article' => $article));
 	}
 
 	public function supprimerAction($id) {
-		return $this->render('SdzBlogBundle:Blog:supprimer.html.twig');
+		$em = $this->getDoctrine()->getManager();
+
+		$article = $em->getRepository('SdzBlogBundle:Article')->find($id);
+
+		if ($article === null) {
+			throw $this->createNotFoundException('Article[id='.$id.'] inexistant');
+		}
+
+		$liste_categories = $em->getRepository('SdzBlogBundle:Categorie')->findAll();
+
+		foreach ($liste_categories as $categorie) {
+			$article->removeCategorie($categorie);
+		}
+
+		$em->flush();
+
+		return $this->render('SdzBlogBundle:Blog:supprimer.html.twig', array('article' => $article));
 	}
 
 	// Méthode du controller appelé par le layout général

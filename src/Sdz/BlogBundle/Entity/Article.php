@@ -13,6 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
 class Article
 {
     /**
+     * @ORM\ManyToMany(targetEntity="Sdz\BlogBundle\Entity\Categorie", cascade={"persist"})
+     */
+    private $categories;
+
+    /**
     *   @ORM\OneToOne(targetEntity="Sdz\BlogBundle\Entity\Image", cascade={"persist"})
     *   @ORM\JoinColumn(nullable=true)
     */
@@ -65,6 +70,8 @@ class Article
     function __construct() {
         $this->date = new \DateTime(); // par défaut, la date de l'article est la date d'aujourd'hui
         $this->publication = true;
+
+        $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -211,5 +218,36 @@ class Article
     public function getImage()
     {
         return $this->image;
+    }
+
+    /**
+     * Add categories
+     *
+     * @param \Sdz\BlogBundle\Entity\Categorie $categories
+     * @return Article
+     */
+    public function addCategorie(\Sdz\BlogBundle\Entity\Categorie $categorie)
+    {
+        $this->categories[] = $categorie;
+    }
+
+    /**
+     * Remove categories
+     *
+     * @param \Sdz\BlogBundle\Entity\Categorie $categories
+     */
+    public function removeCategorie(\Sdz\BlogBundle\Entity\Categorie $categorie)
+    {
+        $this->categories->removeElement($categorie);
+    }
+
+    /**
+     * Get categories
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCategories()
+    {
+        return $this->categories;
     }
 }

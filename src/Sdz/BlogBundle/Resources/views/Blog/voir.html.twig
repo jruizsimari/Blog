@@ -12,6 +12,14 @@
 	{% endif %}
 	{{ article.titre }}</h2>
 <i>Par {{ article.auteur }}, le {{ article.date|date('d/m/Y') }}</i>
+
+{% if article.categories.count > 0 %}
+	- Catégories :
+	{% for categorie in article.categories %}
+		{{ categorie.nom }}
+		{% if not loop.last %} - {% endif %}
+	{% endfor %}
+{% endif %}
 <div class="well">
 	{{ article.contenu }}
 </div>
@@ -21,10 +29,12 @@
 	<a href="{{ path('sdzblog_supprimer', {'id': article.id }) }}" class="btn"><i class="icon-trash"></i>Supprimer l'article</a>
 </p>
 
+<hr>
+
 {% if liste_commentaires|length == 0 %}
-	<h3>Commentaire (0 commentaire pour le moment.)</h3>
+	<h3>Commentaire (0)</h3>
 {% else %}
-	<h3>Commentaires ({{ liste_commentaires|length }} commentaires)</h3> 
+	<h3>Commentaires ({{ liste_commentaires|length }})</h3> 
 {% endif %}
 {% for comment in liste_commentaires %}
 	<i>Posté par: {{ comment.auteur }}, le {{ comment.date|date('d/m/Y') }}</i>
