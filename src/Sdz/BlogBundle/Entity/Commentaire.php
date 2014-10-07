@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Commentaire
 {
     /**
-     * @ORM\ManyToOne(targetEntity="Sdz\BlogBundle\Entity\Article")
+     * @ORM\ManyToOne(targetEntity="Sdz\BlogBundle\Entity\Article", inversedBy="commentaires")
      * @ORM\JoinColumn(nullable=false)
      */
     private $article;
@@ -150,5 +150,27 @@ class Commentaire
     public function getArticle()
     {
         return $this->article;
+    }
+
+    /***************************************
+    *             callbacks
+    ****************************************/
+    
+    /**
+     * @ORM\PrePersist
+     */
+    public function increase()
+    {
+        $nbCommentaires = $this->getArticle()->getNbCommentaires();
+        $this->getArticle()->setNbCommentaires($nbCommentaires + 1);
+    }
+
+    /**
+     * @ORM\PreRemove
+     */
+    public function decrease()
+    {
+        $nbCommentaires = $this->getArticle()->getNbCommentaires();
+        $this->getArticle()->setNbCommentaires($nbCommentaires - 1);
     }
 }

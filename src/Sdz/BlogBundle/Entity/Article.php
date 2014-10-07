@@ -3,15 +3,28 @@
 namespace Sdz\BlogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Article
  *
  * @ORM\Table(name="article")
  * @ORM\Entity(repositoryClass="Sdz\BlogBundle\Entity\ArticleRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Article
 {
+    /**
+     * @ORM\OneToMany(targetEntity="Sdz\BlogBundle\Entity\Commentaire", mappedBy="article")
+     */
+    private $commentaires; // Ici commentaires prend un 's', car un article a plusieurs commentaires
+
+    /**
+     * @ORM\Column(name="nb_commentaires", type="integer")
+     */
+    private $nbCommentaires;
+
     /**
      * @ORM\ManyToMany(targetEntity="Sdz\BlogBundle\Entity\Categorie", cascade={"persist"})
      */
@@ -31,6 +44,13 @@ class Article
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_edition",nullable=true, type="datetime")
+     */
+    private $dateEdition;
 
     /**
      * @var \DateTime
@@ -67,11 +87,20 @@ class Article
     */
     private $publication;
 
+    /**
+     * @Gedmo\Slug(fields={"titre"})
+     * @ORM\Column(name="slug", length=128, unique=true)
+     */
+    private $slug;
+
     function __construct() {
+        $this->nbCommentaires = 0;
+
         $this->date = new \DateTime(); // par défaut, la date de l'article est la date d'aujourd'hui
         $this->publication = true;
 
-        $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->categories = new ArrayCollection();
+        $this->commentaires = new ArrayCollection();
     }
 
     /**
@@ -250,4 +279,119 @@ class Article
     {
         return $this->categories;
     }
+
+    /**
+     * Add commentaires
+     *
+     * @param \Sdz\BlogBundle\Entity\Commentaire $commentaires
+     * @return Article
+     */
+    public function addCommentaire(\Sdz\BlogBundle\Entity\Commentaire $commentaire)
+    {
+        $this->commentaires[] = $commentaire;
+        $commentaires->setArticle($this); // on lie l'article au commentaire dans la Class Commentaire
+    }   // $commentaires->setArticle($this), ne modifie que le dernier objet ajouté dans 'commentaires'
+
+    /**
+     * Remove commentaires
+     *
+     * @param \Sdz\BlogBundle\Entity\Commentaire $commentaires
+     */
+    public function removeCommentaire(\Sdz\BlogBundle\Entity\Commentaire $commentaire)
+    {
+        $this->commentaires->removeElement($commentaire);
+        // Et si notre relation était facultative (nullable=true
+        // ce qui n'est pas notre cas ici attention) :
+        // $commentaire->setArticle(null);
+        
+    }
+
+    /**
+     * Get commentaires
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCommentaires()
+    {
+        return $this->commentaires;
+    }
+
+    /**
+     * Set dateEdition
+     *
+     * @param \DateTime $dateEdition
+     * @return Article
+     */
+    public function setDateEdition($dateEdition)
+    {
+        $this->dateEdition = $dateEdition;
+    }
+
+    /**
+     * Get dateEdition
+     *
+     * @return \DateTime 
+     */
+    public function getDateEdition()
+    {
+        return $this->dateEdition;
+    }
+
+    /**
+     * Set nbCommentaires
+     *
+     * @param integer $nbCommentaires
+     * @return Article
+     */
+    public function setNbCommentaires($nbCommentaires)
+    {
+        $this->nbCommentaires = $nbCommentaires;
+    }
+
+    /**
+     * Get nbCommentaires
+     *
+     * @return integer 
+     */
+    public function getNbCommentaires()
+    {
+        return $this->nbCommentaires;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return Article
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string 
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**************************************
+     *  fonctions de Callbacks  
+     **************************************
+     */
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function updateDate()
+    {
+        $this->setDateEdition(new \Datetime());
+    }
+
+
+    
 }

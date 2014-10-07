@@ -28,7 +28,7 @@
 {% if liste_articleCompetence|length > 0 %}
 <div>
 	Compétences utilisées dans cet article :
-	<ul>
+	<ul class="competences">
 		{% for articleCompetence in liste_articleCompetence %}
 			{# On déclenche une requete à chaque tour de boucle pour chercher la competence associée à l'article
 			   à cause de l'instruction articleCompetence.competence.nom
@@ -47,8 +47,8 @@
 
 <hr>
 
-{% if liste_commentaires|length == 0 %}
-	<h3>Commentaire (0)</h3>
+{% if liste_commentaires|length > 1 %}
+	<h3>Commentaire ({{liste_commentaires|length}})</h3>
 {% else %}
 	<h3>Commentaires ({{ liste_commentaires|length }})</h3> 
 {% endif %}

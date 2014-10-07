@@ -30,8 +30,6 @@ class SdzAntispam
 		return ($this->countLinks($text) + $this->countMails($text)) >= $this->nbForSpam;
 	}
 
-
-
 	/**
 	 * Compte les URL de $text
 	 *

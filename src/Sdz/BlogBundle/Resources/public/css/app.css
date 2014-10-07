@@ -3,3 +3,13 @@
 	width: 50px;
 
 }
+
+ul.competences li {
+	list-style-type: none;
+
+}
+
+ul.competences li:before {
+	content: "- ";
+}
+

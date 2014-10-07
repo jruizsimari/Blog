@@ -50,7 +50,12 @@ class BlogController extends Controller
 				   //->find('SdzBlogBundle:Article', $id);
 
 		// On récupère l'entité correspondante à l'id $id
-		$article = $em->getRepository('SdzBlogBundle:Article')->find($id);
+		// $liste_artCommentsCatsImg = $em->getRepository('SdzBlogBundle:Article')->getArticleAvecCommentaires($id);
+		$liste_artCommentsCatsImg = $em->getRepository('SdzBlogBundle:Article')->getArtWCommentsWCatsWImg($id);
+		
+		// On recupère en résultat un array(objet) de type Article dans notre cas un seul résultat
+		// d'où l'indice 0 pour récupèrer le premier élément du tableau
+		$article = $liste_artCommentsCatsImg[0];
 
 		if ($article === null) {
 			throw $this->createNotFoundException('Article[id='.$id.'] inexistant');
@@ -58,9 +63,9 @@ class BlogController extends Controller
 
 		// On récupère la liste des commentaires
 		// la méthode utilisée recupère tous les commentaires de la table 'commentaire'
-		$liste_commentaires = $em->getRepository('SdzBlogBundle:Commentaire')->findAll();
+		$liste_commentaires = $article->getCommentaires();
 
-		// Récupère les compétences d'un article, d'id $article->getId()
+		// Récupère les articleCompétence d'un article, d'id $article->getId()
 		$liste_articleCompetence = $em->getRepository('SdzBlogBundle:ArticleCompetence')->findByArticle($article->getId());
 
 
@@ -152,6 +157,9 @@ class BlogController extends Controller
 
 		$article = $em->find('SdzBlogBundle:Article', $id);
 
+		$article->setTitre("Un weekend");
+		//$article("->setContenuJ'ai pu voir la fête des lumières. C'était super sympa.");
+		//$article->setSlug("un-weekend-vers-gange");
 		if ($article->getImage() == null) {
 			$image = new Image();
 			$image->setUrl('http://img1.wikia.nocookie.net/__cb20130517180021/p__/protagonist/images/6/65/Bart_Simpson.png');
@@ -172,18 +180,18 @@ class BlogController extends Controller
 
 //		}
 		
-		$liste_competences = $em->getRepository('SdzBlogBundle:Competence')->findAll();
+		// $liste_competences = $em->getRepository('SdzBlogBundle:Competence')->findAll();
 
-		foreach ($liste_competences as $i => $competence) {
+		// foreach ($liste_competences as $i => $competence) {
 
-			$articleCompetence[$i] = new ArticleCompetence();
-			$articleCompetence[$i]->setArticle($article);
+		// 	$articleCompetence[$i] = new ArticleCompetence();
+		// 	$articleCompetence[$i]->setArticle($article);
 
-			$articleCompetence[$i]->setCompetence($competence);
-			$articleCompetence[$i]->setNiveau('Expert');
+		// 	$articleCompetence[$i]->setCompetence($competence);
+		// 	$articleCompetence[$i]->setNiveau('Expert');
 
-			$em->persist($articleCompetence[$i]);
-		}
+		// 	$em->persist($articleCompetence[$i]);
+		// }
 
 		// On déclanche la modification en bd
 		$em->flush();
@@ -216,8 +224,8 @@ class BlogController extends Controller
 	{
 		$liste = array(
 			array('id' => 12, 'titre' => 'Mon dernier weekend'),
-			array('id' => 5, 'titre' => 'Sortie de Symfony 2'),
-			array('id' => 17, 'titre' => 'Mon dernier weekend à Gange'),
+			array('id' => 5, 'titre' => 'Semaine à Lyon'),
+			array('id' => 17, 'titre' => 'Un weekend à Gange'),
 			);
 
 	    return $this->render('SdzBlogBundle:Blog:menu.html.twig', array('liste_articles' => $liste));
