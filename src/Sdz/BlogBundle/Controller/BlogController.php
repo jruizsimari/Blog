@@ -51,7 +51,7 @@ class BlogController extends Controller
 
 		// On récupère l'entité correspondante à l'id $id
 		// $liste_artCommentsCatsImg = $em->getRepository('SdzBlogBundle:Article')->getArticleAvecCommentaires($id);
-		$liste_artCommentsCatsImg = $em->getRepository('SdzBlogBundle:Article')->getArtWCommentsWCatsWImg($id);
+		$liste_artCommentsCatsImg = $em->getRepository('SdzBlogBundle:Article')->getArtWCommentsWCatsWCompsWImg($id);
 		
 		// On recupère en résultat un array(objet) de type Article dans notre cas un seul résultat
 		// d'où l'indice 0 pour récupèrer le premier élément du tableau
@@ -66,8 +66,9 @@ class BlogController extends Controller
 		$liste_commentaires = $article->getCommentaires();
 
 		// Récupère les articleCompétence d'un article, d'id $article->getId()
-		$liste_articleCompetence = $em->getRepository('SdzBlogBundle:ArticleCompetence')->findByArticle($article->getId());
-
+		// $liste_articleCompetence = $em->getRepository('SdzBlogBundle:ArticleCompetence')->findByArticle($article->getId());
+		$articleCompetences = $em->getRepository('SdzBlogBundle:Article')->getArticleCompetences($id);
+		$liste_articleCompetence = $articleCompetences[0]->getArticleCompetence();
 
 
 		return $this->render('SdzBlogBundle:Blog:voir.html.twig', array(
@@ -167,6 +168,7 @@ class BlogController extends Controller
 
 			$article->setImage($image);
 		}
+
 		// je modifie l'image 
 		$article->getImage()->setUrl('http://img1.wikia.nocookie.net/__cb20130517180021/p__/protagonist/images/6/65/Bart_Simpson.png');
 		$article->getImage()->setAlt('Bart Simpson');

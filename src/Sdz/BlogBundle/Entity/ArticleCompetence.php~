@@ -11,13 +11,13 @@ class ArticleCompetence
 {
 	/**
 	 * @ORM\Id
-	 * @ORM\ManyToOne(targetEntity="Sdz\BlogBundle\Entity\Article")
+	 * @ORM\ManyToOne(targetEntity="Sdz\BlogBundle\Entity\Article", inversedBy="articleCompetence")
 	 */
 	private $article;
 
 	/**
 	 * @ORM\Id
-	 * @ORM\ManyToOne(targetEntity="Sdz\BlogBundle\Entity\Competence")
+	 * @ORM\ManyToOne(targetEntity="Sdz\BlogBundle\Entity\Competence", inversedBy="articleCompetence")
 	 */
 	private $competence;
 

@@ -50,7 +50,7 @@ class ArticleRepository extends EntityRepository
 		          ->getResult();
 	}
 
-	public function getArtWCommentsWCatsWImg($id){
+	public function getArtWCommentsWCatsWCompsWImg($id){
 		$qb = $this->createQueryBuilder('a')
 		           ->leftJoin('a.commentaires', 'c')
 		           ->addSelect('c')
@@ -58,6 +58,20 @@ class ArticleRepository extends EntityRepository
 		           ->addSelect('i')
 		           ->leftJoin('a.categories', 'ca')
 		           ->addSelect('ca')
+		           ->where('a.id = :id')
+		            ->setParameter('id', $id);
+
+		return $qb->getQuery()
+		          ->getResult();
+	}
+
+	public function getArticleCompetences($id)
+	{
+		$qb = $this->createQueryBuilder('a')
+		           ->leftJoin('a.articleCompetence', 'ac')
+		           ->addSelect('ac')
+		           ->leftJoin('ac.competence', 'c')
+		           ->addSelect('c')
 		           ->where('a.id = :id')
 		            ->setParameter('id', $id);
 

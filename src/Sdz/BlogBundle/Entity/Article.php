@@ -31,7 +31,12 @@ class Article
     private $categories;
 
     /**
-    *   @ORM\OneToOne(targetEntity="Sdz\BlogBundle\Entity\Image", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Sdz\BlogBundle\Entity\ArticleCompetence", mappedBy="article")
+     */
+    private $articleCompetence;
+
+    /**
+    *   @ORM\OneToOne(targetEntity="Sdz\BlogBundle\Entity\Image", cascade={"persist", "remove"})
     *   @ORM\JoinColumn(nullable=true)
     */
     private $image;
@@ -101,6 +106,7 @@ class Article
 
         $this->categories = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
+        $this->articleCompetence = new ArrayCollection();
     }
 
     /**
@@ -393,5 +399,34 @@ class Article
     }
 
 
-    
+    /**
+     * Add articleCompetence
+     *
+     * @param \Sdz\BlogBundle\Entity\ArticleCompetence $articleCompetence
+     * @return Article
+     */
+    public function addArticleCompetence(\Sdz\BlogBundle\Entity\ArticleCompetence $articleCompetence)
+    {
+        $this->articleCompetence[] = $articleCompetence;
+    }
+
+    /**
+     * Remove articleCompetence
+     *
+     * @param \Sdz\BlogBundle\Entity\ArticleCompetence $articleCompetence
+     */
+    public function removeArticleCompetence(\Sdz\BlogBundle\Entity\ArticleCompetence $articleCompetence)
+    {
+        $this->articleCompetence->removeElement($articleCompetence);
+    }
+
+    /**
+     * Get articleCompetence
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getArticleCompetence()
+    {
+        return $this->articleCompetence;
+    }
 }

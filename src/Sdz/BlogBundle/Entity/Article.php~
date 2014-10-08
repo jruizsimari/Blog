@@ -31,7 +31,12 @@ class Article
     private $categories;
 
     /**
-    *   @ORM\OneToOne(targetEntity="Sdz\BlogBundle\Entity\Image", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Sdz\BlogBundle\Entity\ArticleCompetence", mappedBy="article")
+     */
+    private $articleCompetence;
+
+    /**
+    *   @ORM\OneToOne(targetEntity="Sdz\BlogBundle\Entity\Image", cascade={"persist", "remove"})
     *   @ORM\JoinColumn(nullable=true)
     */
     private $image;
@@ -337,6 +342,47 @@ class Article
         return $this->dateEdition;
     }
 
+    /**
+     * Set nbCommentaires
+     *
+     * @param integer $nbCommentaires
+     * @return Article
+     */
+    public function setNbCommentaires($nbCommentaires)
+    {
+        $this->nbCommentaires = $nbCommentaires;
+    }
+
+    /**
+     * Get nbCommentaires
+     *
+     * @return integer 
+     */
+    public function getNbCommentaires()
+    {
+        return $this->nbCommentaires;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return Article
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string 
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
 
     /**************************************
      *  fonctions de Callbacks  
@@ -350,4 +396,7 @@ class Article
     {
         $this->setDateEdition(new \Datetime());
     }
+
+
+    
 }

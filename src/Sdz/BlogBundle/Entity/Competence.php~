@@ -33,6 +33,7 @@ class Competence
      */
     private $nom;
 
+
     /**
      * Get id
      *
@@ -64,43 +65,5 @@ class Competence
     public function getNom()
     {
         return $this->nom;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->articleCompetence = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add articleCompetence
-     *
-     * @param \Sdz\BlogBundle\Entity\ArticleCompetence $articleCompetence
-     * @return Competence
-     */
-    public function addArticleCompetence(\Sdz\BlogBundle\Entity\ArticleCompetence $articleCompetence)
-    {
-        $this->articleCompetence[] = $articleCompetence;
-    }
-
-    /**
-     * Remove articleCompetence
-     *
-     * @param \Sdz\BlogBundle\Entity\ArticleCompetence $articleCompetence
-     */
-    public function removeArticleCompetence(\Sdz\BlogBundle\Entity\ArticleCompetence $articleCompetence)
-    {
-        $this->articleCompetence->removeElement($articleCompetence);
-    }
-
-    /**
-     * Get articleCompetence
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getArticleCompetence()
-    {
-        return $this->articleCompetence;
     }
 }
