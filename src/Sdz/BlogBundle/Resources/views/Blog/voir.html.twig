@@ -6,24 +6,7 @@
 {% endblock %}
 
 {% block sdzblog_body %}
-<h2>
-	{% if article.image is not null %}
-		<img src="{{ article.image.url }}" alt="{{ article.image.alt }}" class="logo"/>
-	{% endif %}
-	{{ article.titre }}</h2>
-<i>Par {{ article.auteur }}, le {{ article.date|date('d/m/Y') }}</i>
-
-{% if article.categories.count > 0 %}
-	- Catégories :
-	{% for categorie in article.categories %}
-		{{ categorie.nom }}
-		{% if not loop.last %} - {% endif %}
-	{% endfor %}
-{% endif %}
-
-<div class="well">
-	{{ article.contenu }}
-</div>
+	{% include 'SdzBlogBundle:Blog:article.html.twig' %}
 
 {% if liste_articleCompetence|length > 0 %}
 <div>
@@ -40,17 +23,25 @@
 {% endif %}
 
 <p>
-	<a href="{{ path('sdzblog_accueil') }}" class="btn"><i class="icon-chevron-left"></i>Retour à la liste</a>
-	<a href="{{ path('sdzblog_modifier', {'id': article.id}) }}" class="btn"><i class="icon-edit"></i>Modifier l'article</a>
-	<a href="{{ path('sdzblog_supprimer', {'id': article.id }) }}" class="btn"><i class="icon-trash"></i>Supprimer l'article</a>
+	<ul class="pager">		
+		<li>
+			<a href="{{ path('sdzblog_accueil') }}" class="btn"><i class="glyphicon glyphicon-chevron-left"></i> Retour à la liste</a>
+		</li>
+		<li>
+			<a href="{{ path('sdzblog_modifier', {'slug': article.slug}) }}" class="btn"><i class="glyphicon glyphicon-edit"></i> Modifier l'article</a>
+		</li>
+		<li>
+			<a href="{{ path('sdzblog_supprimer', {'slug': article.slug }) }}" class="btn"><i class="glyphicon glyphicon-remove-circle"></i> Supprimer l'article</a>
+		</li>
+	</ul>
 </p>
 
 <hr>
 
 {% if liste_commentaires|length > 1 %}
-	<h3>Commentaire ({{liste_commentaires|length}})</h3>
+	<h3>Commentaires ({{ liste_commentaires|length }})  <a href="#"><i class="glyphicon glyphicon-plus-sign"></i></a></h3>
 {% else %}
-	<h3>Commentaires ({{ liste_commentaires|length }})</h3> 
+	<h3>Commentaire ({{liste_commentaires|length}})<a href="#"><i class="glyphicon glyphicon-plus-sign"></i></a></h3>
 {% endif %}
 {% for comment in liste_commentaires %}
 	<i>Posté par: {{ comment.auteur }}, le {{ comment.date|date('d/m/Y') }}</i>

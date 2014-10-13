@@ -9,6 +9,6 @@
 
 <p>Vous éditez un article déjà existant, ne le changez pas trop pour éviter aux membres de ne pas comprendre ce qu'il se passe</p>
 
-<a href="{{ path('sdzblog_voir', {'id': article.id }) }}" class="btn"><i class="icon-chevron-left"></i>Retour à l'article</a>
+<a href="{{ path('sdzblog_voir', {'slug': article.slug }) }}" class="btn"><span class="glyphicon glyphicon-left"></span>Retour à l'article</a>
 
 {% endblock %}

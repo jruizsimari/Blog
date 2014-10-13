@@ -1,0 +1,29 @@
+{% set accueil = accueil|default(false) %}
+
+<h2>
+{% if article.image is not null	%}
+		<img src="{{ asset(article.image.url) }}" alt="{{ article.image.alt }}" class="logo">
+{% endif %}
+
+{% if accueil %}
+	<a href="{{ path('sdzblog_voir', {'slug': article.slug}) }}">{{ article.titre }}</a>
+{% else %}
+	{{ article.titre }}		
+{% endif %}
+</h2>
+
+<i>Le {{ article.date|date('d/m/Y') }}, par {{ article.auteur }}</i>
+<div class="well">
+	{{ article.contenu }}
+</div>
+
+{% if article.categories|length > 0 %}
+	<div class="well well-sm">
+		<p><i>
+			Catégories :
+			{% for categorie in article.categories %}
+				{{ categorie.nom }} {% if not loop.last %}, {% endif %}
+			{% endfor %}
+		</i></p>
+	</div>
+{% endif %}

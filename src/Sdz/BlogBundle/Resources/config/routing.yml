@@ -5,24 +5,22 @@ sdzblog_accueil:
         page: \d*
 
 sdzblog_voir:
-    path:    /article/{id}
+    path:    /article/{slug}
     defaults: { _controller: SdzBlogBundle:Blog:voir }
     requirements:
-        id: \d+
+        slug: ^([a-z1-9]+-)*[a-z1-9]+$
 
 sdzblog_ajouter:
     path:    /ajouter
     defaults: { _controller: SdzBlogBundle:Blog:ajouter }
 
 sdzblog_modifier:
-    path:    /modifier/{id}
+    path:    /modifier/{slug}
     defaults: { _controller: SdzBlogBundle:Blog:modifier }
     requirements:
-        id: \d+
-
+        slug: ^([a-z1-9]+-)*[a-z1-9]+$
 sdzblog_supprimer:
-    path:    /supprimer/{id}
+    path:    /supprimer/{slug}
     defaults: { _controller: SdzBlogBundle:Blog:supprimer }
     requirements:
-        id: \d+
-
+        slug: ^([a-z1-9]+-)*[a-z1-9]+$

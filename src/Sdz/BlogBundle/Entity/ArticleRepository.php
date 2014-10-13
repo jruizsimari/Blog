@@ -3,6 +3,7 @@
 namespace Sdz\BlogBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * ArticleRepository
@@ -36,21 +37,21 @@ class ArticleRepository extends EntityRepository
 		    return $qb;
 	}
 
-	public function getArticleAvecCommentaires($id)
+	public function getArticleAvecCommentaires($slug)
 	{
-		// On récupère l'article dont l'id est $id ainsi que
+		// On récupère l'article dont l'slug est $slug ainsi que
 		// les commentaires associés.
 		$qb = $this->createQueryBuilder('a')
 		           ->leftJoin('a.commentaires', 'c')
 		           ->addSelect('c')
-		           ->where('a.id = :id')
-		            ->setParameter('id', $id);
+		           ->where('a.slug = :slug')
+		            ->setParameter('slug', $slug);
 
 		return $qb->getQuery()
 		          ->getResult();
 	}
 
-	public function getArtWCommentsWCatsWCompsWImg($id){
+	public function getArtCommentsCatsCompsImg($slug){
 		$qb = $this->createQueryBuilder('a')
 		           ->leftJoin('a.commentaires', 'c')
 		           ->addSelect('c')
@@ -58,22 +59,23 @@ class ArticleRepository extends EntityRepository
 		           ->addSelect('i')
 		           ->leftJoin('a.categories', 'ca')
 		           ->addSelect('ca')
-		           ->where('a.id = :id')
-		            ->setParameter('id', $id);
+		           ->where('a.slug = :slug')
+		            ->setParameter('slug', $slug);
 
 		return $qb->getQuery()
 		          ->getResult();
 	}
 
-	public function getArticleCompetences($id)
+	public function getArticleCompetences($slug)
 	{
+		// On fait une double jointure entre les entités Article-ArticleCompetence-Competence
 		$qb = $this->createQueryBuilder('a')
 		           ->leftJoin('a.articleCompetence', 'ac')
 		           ->addSelect('ac')
 		           ->leftJoin('ac.competence', 'c')
 		           ->addSelect('c')
-		           ->where('a.id = :id')
-		            ->setParameter('id', $id);
+		           ->where('a.slug = :slug')
+		            ->setParameter('slug', $slug);
 
 		return $qb->getQuery()
 		          ->getResult();
@@ -110,6 +112,45 @@ class ArticleRepository extends EntityRepository
 
 	}
 
+	public function findAllSortByDate($nombreParPage, $page)
+	{	// deux manières de recupérer les articles triés de manière descendante
+		// $result = $this->createQueryBuilder('a')
+		//                ->orderBy('a.date', 'DESC')
+		//                ->getQuery()
+		//                ->getResult();
+		// return $result;
+
+		// Or
+		return $this->findBy(array(), array('date' => 'DESC'));
+	}
+
+	// Les paramètres pour faire un pagination
+	// Nombre total d'articles
+	// Nombre d'articles à afficher par page
+	// La page courante
+	public function getArticles($nombreParPage, $page)
+	{
+		if ($page < 1) {
+		// On déplace la vérification du numéro de la page dans la méthode
+			throw new \InvalidArgumentException('L\'argument $page ne peut être inférieur à 1 (valeur : "'.$page.'").');
+		}
+
+		// La construction de la requête reste inchangée
+		$query = $this->createQueryBuilder('a')
+		              ->leftJoin('a.image', 'i')
+		              ->addSelect('i')
+		              ->leftJoin('a.categories', 'c')
+		              ->addSelect('c')
+		              ->orderBy('a.date', 'desc')
+		              ->getQuery();
+
+		// On définit l'article à partir duquel commencer la liste
+		$query->setFirstResult(($page - 1) * $nombreParPage)
+		// Ainsi que le nombre d'articles à afficher
+		      ->setMaxResults($nombreParPage);
+
+		return new Paginator($query);
+	}
 	public function myFindAllDQL()
 	{
 		$query = $this->_em->createQuery('SELECT a FROM SdzBlogBundle:Article a');

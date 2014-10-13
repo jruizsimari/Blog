@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 	<meta http-equiv=-"Content-Type" content="text/html; charset=UTF-8">
+	<!-- on ouvre la fenetre à la largeur de l'écran -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>{% block title %}Sdz{% endblock %}</title>
 
 	{% stylesheets filter='cssrewrite'
@@ -13,13 +15,13 @@
 </head>
 <body>
 	<div class="container">
-		<div id="header" class="hero-unit">
+		<div id="header" class="jumbotron">
 			<h1>Mon Projet Symfony2</h1>
 			<p>Ce projet est propulsé par Symfony2, et construit grâce au tutoriel OpenClassRoom</p>
-			<p><a href="http://fr.openclassrooms.com/informatique/cours/developpez-votre-site-web-avec-le-framework-symfony2" class="btn btn-primary btn-large" target="_blank" >Lire le tutoriel</a></p>
+			<p><a href="http://fr.openclassrooms.com/informatique/cours/developpez-votre-site-web-avec-le-framework-symfony2" class="btn btn-primary btn-lg" target="_blank" >Lire le tutoriel</a></p>
 		</div>
 		<div class="row">
-			<div id="menu" class="span3">
+			<div id="menu" class="col-xs-3 col-lg-3">
 				<h3>Le blog</h3>
 				<ul class="nav nav-pills nav-stacked">
 					<li><a href="{{ path('sdzblog_accueil') }}">Accueil du blog</a></li>
@@ -29,7 +31,7 @@
 				{{ render(controller("SdzBlogBundle:Blog:menu", {'nombre': 3})) }}
 			</div>
 
-			<div id="content" class="span9">
+			<div id="content" class="col-xs-9 col-lg-9">
 				{% block body %}
 				{% endblock %}</div>
 			</div>
@@ -43,8 +45,16 @@
 	
 
 	{% block javascripts %}
-		<script type="ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+		<script type="text/javascript">
+			jQuery(document).ready(function(){
+				console.time("test1");
+  				console.log("jQuery est prêt !");
+  				console.timeEnd("test1");
+			});
+
+		</script>
 	{% endblock %}
 </body>
 </html>
