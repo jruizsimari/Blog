@@ -59,8 +59,16 @@
 		</fieldset>
 		<fieldset>
 			<legend>Catégories</legend>	
-			<div class="categories" data-prototype="{{ form_widget(form.categories.vars.prototype)|e }}">
-				
+			<div class="form-group">
+				<div class="col-sm-2
+				">{{ form_label(form.categories.vars.prototype.nom, "Nom de la catégorie", {'attr': {'class': 'control-label'}}) }}</div>
+				{{ form_errors(form.categories.vars.prototype.nom) }}
+				<div class="col-sm-5">{{ form_widget(form.categories.vars.prototype.nom, {'attr': {'class': 'form-control'}}) }}
+				</div>
+				<div class="col-sm-1 perso">
+					<a href="#"><span class="glyphicon glyphicon-plus-sign"></span></a>
+					<a href="#"><span class="glyphicon glyphicon-minus-sign"></span></a>
+				</div>
 			</div>
 		</fieldset>
 		{{ form_widget(form._token) }}

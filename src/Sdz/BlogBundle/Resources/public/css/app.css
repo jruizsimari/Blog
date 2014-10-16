@@ -12,3 +12,14 @@ ul.competences li {
 ul.competences li:before {
 	content: "- ";
 }
+
+.col-sm-1.perso {
+	padding: 0;
+}
+
+.col-sm-1 a{
+	display: block;
+	margin: 0;
+	padding: 0;
+	height: 17px;
+}
