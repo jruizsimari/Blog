@@ -11,6 +11,8 @@ use Sdz\BlogBundle\Entity\Commentaire;
 use Sdz\BlogBundle\Entity\Categorie;
 use Sdz\BlogBundle\Entity\ArticleCompetence;
 
+use Sdz\BlogBundle\Form\ArticleType;
+
 class BlogController extends Controller
 {
 	public function indexAction($page) {
@@ -19,11 +21,11 @@ class BlogController extends Controller
 		$articles = $this->getDoctrine()
 		                 ->getManager()
 		                 ->getRepository('SdzBlogBundle:Article')
-		                 ->getArticles(1, $page);
+		                 ->getArticles(2, $page);
 
 		return $this->render('SdzBlogBundle:Blog:index.html.twig', array('articles'   => $articles,
 			                                                             'page'       => $page,
-			                                                             'nombrePage' => ceil(count($articles)/1)                         
+			                                                             'nombrePage' => ceil(count($articles)/2)                         
 			                                                            ));
 	}
 
@@ -66,30 +68,50 @@ class BlogController extends Controller
 	}
 
 	public function ajouterAction() {
+		$article = new Article;
 
+		$form = $this->createForm(new ArticleType(), $article);
 
-		if( $this->get('request')->getMethod() === 'POST') {
+		// On récupère la requête 
+		$request = $this->get('request');
 
+		if( $request->getMethod() === 'POST') {
+			// On fait le lien Requête <-> Formulaire
+			// A partir de maintenant, la variable $article contient les valeurs
+			// entrées dans le formulaire par le visiteur
+			$form->bind($request);
 
+			// On vérifie que les valeurs entrées sont correctes
+			// (Nous verrons la validation des objets en détail dans le prochain chapitre)
+			if ($form->isValid()) {
+				$em = $this->getDoctrine()->getManager();
+				$em->persist($article);
 
-			// Ici, on s'occupera de la création et de la gestion du formulaire
-			$this->get('session')->getFlashBag()->add('notice', 'Article bien enregistré');
-			
-			// contenu saisi par l'utilisateur
-			$contenu = 'bla@hotmail.fr, bli@hotmail.com, johndoe@gmail.com';
+				$em->flush();
+				// Ici, on s'occupera de la création et de la gestion du formulaire
+				$this->get('session')->getFlashBag()->add('notice', 'Article bien enregistré');
+				
+				// contenu saisi par l'utilisateur
+				$contenu = 'bla@hotmail.fr, bli@hotmail.com, johndoe@gmail.com';
 
-			// On récupère le service antispam
-			$antispam = $this->container->get('sdz_blog.antispam');
+				// On récupère le service antispam
+				$antispam = $this->container->get('sdz_blog.antispam');
 
-			if($antispam->isSpam($contenu)) {
-				throw new Exception('Votre message a été détecté comme spam !');
+				if($antispam->isSpam($contenu)) {
+					//throw new Exception('Votre message a été détecté comme spam !');
+				}
+				return $this->redirect($this->generateUrl('sdzblog_voir', array('slug' => $article->getSlug())));
 			}
-			return $this->redirect($this->generateUrl('sdzblog_voir', array('slug' => $article->getSlug())));
 		}
 		
+		// A ce stade : 
+		// - Soit la requête est de type GET, donc le visiteur vient d'arriver
+		// sur la page et veut voir le formulaire
+		// - Soit la requête est de type POST, mais le formulaire n'est pas valide, 
+		// donc on l'affiche de nouveau
 
 
-		return $this->render('SdzBlogBundle:Blog:ajouter.html.twig');
+		return $this->render('SdzBlogBundle:Blog:ajouter.html.twig', array('form' => $form->createView()));
 	}
 
 
