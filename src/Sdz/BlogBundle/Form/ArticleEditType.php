@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ImageType extends AbstractType
+class ArticleEditType extends ArticleType
 {
         /**
      * @param FormBuilderInterface $builder
@@ -14,8 +14,9 @@ class ImageType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('file', 'file')
+        parent::buildForm($builder, $options);
+
+        $builder->remove('date');
         ;
     }
     
@@ -25,7 +26,11 @@ class ImageType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Sdz\BlogBundle\Entity\Image'
+            'data_class' => 'Sdz\BlogBundle\Entity\Article',
+            'csrf_protection' => true,
+            'csrf_field_name' => '_token',
+            // une clé unique pour aider à la génération du jeton secret
+            'intention'       => 'task_item',
         ));
     }
 
@@ -34,7 +39,6 @@ class ImageType extends AbstractType
      */
     public function getName()
     {
-        // getName() renseigne les noms des champs du formulaire : les attibuts name, id
-        return 'image';
+        return 'article_edit';
     }
 }

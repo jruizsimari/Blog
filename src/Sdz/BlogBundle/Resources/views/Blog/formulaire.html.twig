@@ -6,6 +6,7 @@
 		{{ form_errors(form) }}
 		<fieldset>
 			<legend>Article</legend>
+			{% if form.date is defined %}
 			<div class="form-group">
 				<div class="col-sm-2
 				">{{ form_label(form.date, "Date de création", {'attr': {'class': 'control-label'}}) }}</div>
@@ -13,6 +14,7 @@
 				<div class="col-sm-2 col-xs-4">{{ form_widget(form.date, {'attr': {'class': 'form-control'}}) }}
 				</div>
 			</div>
+			{% endif %}
 			<div class="form-group">
 				<div class="col-sm-2
 				">{{ form_label(form.titre, "Titre de l'article", {'attr': {'class': 'control-label'}}) }}</div>
@@ -34,42 +36,49 @@
 				<div class="col-sm-5">{{ form_widget(form.auteur, {'attr': {'class': 'form-control'}}) }}
 				</div>
 			</div>
+			{% if form.publication is defined %}
 			<div class="form-group">
 			    <div class="col-sm-2">{{ form_label(form.publication, "Publication") }}</div>
 			    {{ form_errors(form.publication) }}
 			    <div class="col-sm-5">{{ form_widget(form.publication) }}</div>
 			</div>
+			{% endif %}
 		</fieldset>
 		<fieldset>
 			<legend>Image</legend>
 			<div class="form-group">
 				<div class="col-sm-2
-				">{{ form_label(form.image.url, "L'URL de l'image", {'attr': {'class': 'control-label'}}) }}</div>
-				{{ form_errors(form.image.url) }}
-				<div class="col-sm-5">{{ form_widget(form.image.url, {'attr': {'class': 'form-control'}}) }}
+				">{{ form_label(form.image.file, "Charger l'image", {'attr': {'class': 'control-label'}}) }}</div>
+				{{ form_errors(form.image.file) }}
+				<div class="col-sm-5">{{ form_widget(form.image.file) }}
 				</div>
 			</div>
-			<div class="form-group">
-				<div class="col-sm-2
-				">{{ form_label(form.image.alt, "Alt de l'image", {'attr': {'class': 'control-label'}}) }}</div>
-				{{ form_errors(form.image.alt) }}
-				<div class="col-sm-5">{{ form_widget(form.image.alt, {'attr': {'class': 'form-control'}}) }}
-				</div>
-			</div>
+			
 		</fieldset>
 		<fieldset>
 			<legend>Catégories</legend>	
-			<div class="form-group">
-				<div class="col-sm-2
-				">{{ form_label(form.categories.vars.prototype.nom, "Nom de la catégorie", {'attr': {'class': 'control-label'}}) }}</div>
-				{{ form_errors(form.categories.vars.prototype.nom) }}
-				<div class="col-sm-5">{{ form_widget(form.categories.vars.prototype.nom, {'attr': {'class': 'form-control'}}) }}
+				<div class="form-group">
+					<div class="col-sm-2">
+						Nom de la catégories
+					</div>
 				</div>
-				<div class="col-sm-1 perso">
-					<a href="#"><span class="glyphicon glyphicon-plus-sign"></span></a>
-					<a href="#"><span class="glyphicon glyphicon-minus-sign"></span></a>
+				<div class="form-group">
+					<div class="col-sm-5">
+						{{ form_row(form.categories) }}
+					</div>
 				</div>
-			</div>
+					{# <div class="col-sm-2">
+						{{ form_label(form.categories.vars.prototype.nom, "Nom de la catégorie", {'attr': {'class':'control-label'}}) }}
+						{{ form_errors(form.categories.vars.prototype.nom) }}
+					</div>
+
+					<div class="col-sm-5">
+						{{ form_widget(form.categories.vars.prototype.nom, {'attr': {'class': 'form-control'}}) }}
+					</div>                        
+					<div class="col-sm-1 perso">                                   
+						<a href="#"><span class="glyphicon glyphicon-plus-sign"></span></a>                                
+						<a href="#"><span class="glyphicon glyphicon-minus-sign"></span></a>
+					</div> #}
 		</fieldset>
 		{{ form_widget(form._token) }}
 		<input type="submit" class="btn btn-primary">

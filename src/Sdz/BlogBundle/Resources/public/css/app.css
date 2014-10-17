@@ -23,3 +23,9 @@ ul.competences li:before {
 	padding: 0;
 	height: 17px;
 }
+
+li.previous > input {
+	display: inline-block;
+	float: left;
+	margin-left: 10px;
+}

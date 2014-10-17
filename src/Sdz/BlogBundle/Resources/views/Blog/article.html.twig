@@ -2,7 +2,7 @@
 
 <h2>
 {% if article.image is not null	%}
-		<img src="{{ asset(article.image.url) }}" alt="{{ article.image.alt }}" class="logo">
+		<img src="{{ asset(article.image.webPath) }}" alt="{{ article.image.alt }}" class="logo">
 {% endif %}
 
 {% if accueil %}

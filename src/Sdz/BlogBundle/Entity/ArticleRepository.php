@@ -159,4 +159,12 @@ class ArticleRepository extends EntityRepository
 
 		return $resultat;
 	}
+
+	public function getSelectList()
+	{
+		$qb = $this->createQueryBuilder('a')
+		           ->where('a.publication = 1');
+
+		           return $qb; // On retourne le QueryBuilder, et non la Query
+	}
 }
