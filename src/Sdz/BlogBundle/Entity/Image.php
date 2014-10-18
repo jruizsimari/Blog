@@ -6,12 +6,14 @@ use Doctrine\ORM\Mapping as ORM;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * Image
  *
  * @ORM\Table(name="image")
  * @ORM\Entity(repositoryClass="Sdz\BlogBundle\Entity\ImageRepository")
- * @ORM\HasLifecycleCallbacks
+ * @ORM\HasLifecycleCallbacks()
  */
 class Image
 {
@@ -28,6 +30,7 @@ class Image
      * @var string
      *
      * @ORM\Column(name="url", type="string", length=255)
+     * 
      */
     private $url;
 
@@ -38,6 +41,12 @@ class Image
      */
     private $alt;
 
+    /**
+     * @Assert\File(
+     *              maxSize="1024k")
+     *              
+     *              
+     */
     private $file;
 
     // On ajoute cet attribut pour y stocker le nom du fichier temporairement
@@ -106,7 +115,7 @@ class Image
         return $this->file;
     }
 
-    public function setFile(UploadedFile $file)
+    public function setFile(UploadedFile $file = null)
     {
         $this->file = $file;
 
@@ -118,25 +127,29 @@ class Image
             // On réinitialise les valeurs des attributs url et alt
             $this->url = null;
             $this->alt = null;
+
+            
         }
     }
 
     /**
-     * ORM\PrePersist() 
-     * ORM\PreUpdate()
+     * @ORM\PrePersist() 
+     * @ORM\PreUpdate()
      */
     public function preUpload() {
         // Si jamais il n'y a pas de fichier (champ facultatif)
         if (null === $this->file) {
             return;
         }
-
+        
         // Le nom du fichier est son id, on doit juste stocker également son extension
         // pour faire propre, on devrait renommer cet attribut en "extension", plutot que "url"
         $this->url = $this->file->guessExtension();
 
+        $originalName = $this->file->getClientOriginalName();
+
         // Et on génère l'attribut alt de la balise <img>, à la valeur du nom du fichier sur le PC de l'internaute
-        $this->alt = $this->file->getClientOriginalName();
+        $this->alt = preg_replace('#\.(jpg|jpeg|png)$#', '', $originalName);
     }
 
     /**
@@ -160,7 +173,8 @@ class Image
 
         // On déplace le fichier envoyé dans le répertoire de notre choix
         $this->file->move(
-            $this->getUploadRootDir().'/'.$this->id.'.'.$this->url );
+            $this->getUploadRootDir(),
+            '/'.$this->id.'.'.$this->url );
 
     }
 

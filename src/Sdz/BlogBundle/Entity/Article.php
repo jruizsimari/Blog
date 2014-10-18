@@ -8,6 +8,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
+
 /**
  * Article
  *
@@ -38,8 +39,9 @@ class Article
     private $articleCompetence;
 
     /**
-    *   @ORM\OneToOne(targetEntity="Sdz\BlogBundle\Entity\Image", cascade={"persist", "remove"})
-    *   @ORM\JoinColumn(nullable=true)
+    * @ORM\OneToOne(targetEntity="Sdz\BlogBundle\Entity\Image", cascade={"persist", "remove"})
+    * @ORM\JoinColumn(nullable=true)
+    * @Assert\Valid()
     */
     private $image;
 
@@ -63,6 +65,7 @@ class Article
      * @var \DateTime
      *
      * @ORM\Column(name="date", type="datetime")
+     * @Assert\DateTime()
      */
     private $date;
 
@@ -70,6 +73,7 @@ class Article
      * @var string
      *
      * @ORM\Column(name="titre", type="string", length=255)
+     * @Assert\Length(min="10", minMessage="Le titre doit faire au moins {{ limit }} caractères")
      */
     private $titre;
 
@@ -77,6 +81,7 @@ class Article
      * @var string
      *
      * @ORM\Column(name="auteur", type="string", length=255)
+     * @Assert\Length(min="2")
      */
     private $auteur;
 
@@ -84,6 +89,7 @@ class Article
      * @var string
      *
      * @ORM\Column(name="contenu", type="text")
+     * @Assert\NotBlank()
      */
     private $contenu;
 
@@ -431,4 +437,5 @@ class Article
     {
         return $this->articleCompetence;
     }
+
 }

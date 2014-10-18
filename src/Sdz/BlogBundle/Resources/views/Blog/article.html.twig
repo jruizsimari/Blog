@@ -2,13 +2,13 @@
 
 <h2>
 {% if article.image is not null	%}
-		<img src="{{ asset(article.image.webPath) }}" alt="{{ article.image.alt }}" class="logo">
+		<img src="{{ asset(article.image.webPath) }}" alt="{{ article.image.alt }}" class="logo"/>
 {% endif %}
 
 {% if accueil %}
 	<a href="{{ path('sdzblog_voir', {'slug': article.slug}) }}">{{ article.titre }}</a>
 {% else %}
-	{{ article.titre }}		
+	{{ article.titre }}	
 {% endif %}
 </h2>
 

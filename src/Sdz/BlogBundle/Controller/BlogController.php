@@ -89,7 +89,10 @@ class BlogController extends Controller
 				$em = $this->getDoctrine()->getManager();
 				$em->persist($article);
 
+				var_dump($article->getImage()->getUrl().' et '.$article->getImage()->getAlt());
+				
 				$em->flush();
+
 				// Ici, on s'occupera de la création et de la gestion du formulaire
 				$this->get('session')->getFlashBag()->add('notice', 'Article bien enregistré');
 				

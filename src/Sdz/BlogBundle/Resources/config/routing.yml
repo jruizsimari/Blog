@@ -6,7 +6,7 @@ sdzblog_accueil:
 
 sdzblog_voir:
     path:    /article/{slug}
-    defaults: { _controller: SdzBlogBundle:Blog:voir }
+    defaults: { _controller: SdzBlogBundle:Blog:voir}
     requirements:
         slug: ^([a-z1-9]+-)*[a-z1-9]+$
 
