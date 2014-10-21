@@ -29,3 +29,7 @@ li.previous > input {
 	float: left;
 	margin-left: 10px;
 }
+
+/*select, input, label { vertical-align:middle}*/
+
+label { text-align: right; }

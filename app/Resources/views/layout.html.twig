@@ -51,7 +51,22 @@
 			$(document).ready(function() {
 
 
+            // Permet de supprimer les labels ajoutés dans la page
+            //$('label[for=article_categories], label[for=article_edit_categories]').replaceWith('');
+            // il vaut mieux utiliser la fonction $('1element').replaceWith('').add('2element').replaceWith('');
 
+            $('label[for=article_categories], label[for=article_edit_categories]').text('Nom de la catégories').addClass('control-label').detach().appendTo('.label-select');
+
+            // Selectionner Le <select>
+            var select = $('select#article_categories, select#article_edit_categories').addClass('form-control');
+
+            
+
+
+            // déplacer le select de son emplacement d'origine pour le greffer dans la div de class .select
+            $('select#article_edit_categories, select#article_categories').detach().appendTo('.select');
+
+            
 
             // On récupère la balise <div> en question qui contient
             //l'attribut « data-prototype » qui nous intéresse.
@@ -107,7 +122,7 @@
             }
 
 
-
+            // $('.select > div').empty();
         }
 
 
