@@ -12,4 +12,14 @@ use Doctrine\ORM\EntityRepository;
  */
 class CategorieRepository extends EntityRepository
 {
+	public function getCategoriesList()
+	{
+		$qb = $this->createQueryBuilder('c')
+				   ->select('c')
+		           ->groupBy('c.nom')
+		           ->distinct(true)
+		           ;
+
+		return $qb;
+	}
 }

@@ -9,6 +9,8 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 
+use Sdz\BlogBundle\Entity\CategorieRepository;
+
 class ArticleType extends AbstractType
 {
         /**
@@ -19,8 +21,8 @@ class ArticleType extends AbstractType
     {
         $builder
             ->add('date', 'date', array(
-                'widget' => 'single_text',
-                'format' => 'yyyy/MM/dd'))
+                                        'widget' => 'single_text',
+                                        'format' => 'dd/MM/yyyy'))
             ->add('titre', 'text')
             ->add('auteur', 'text')
             ->add('contenu','textarea')
@@ -28,6 +30,10 @@ class ArticleType extends AbstractType
             ->add('image', new ImageType())
             ->add('categories', 'entity', array('class' => 'SdzBlogBundle:Categorie',
                                                 'property' => 'nom',
+                                                'query_builder' => function(CategorieRepository $er)
+                                                                 {
+                                                                   return $er->getCategoriesList();
+                                                                 },
                                                 'multiple' => true,
                                                 'expanded' => false) )
         ;

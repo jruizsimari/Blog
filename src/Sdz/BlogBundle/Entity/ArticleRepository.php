@@ -167,4 +167,5 @@ class ArticleRepository extends EntityRepository
 
 		           return $qb; // On retourne le QueryBuilder, et non la Query
 	}
+
 }
