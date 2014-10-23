@@ -47,10 +47,10 @@
 		<fieldset>
 			<legend>Image</legend>
 			<div class="form-group">
-				<div class="col-sm-2
+				<div class="col-sm-2 col-xs-5
 				">{{ form_label(form.image.file, "Charger l'image", {'attr': {'class': 'control-label'}}) }}</div>
 				{{ form_errors(form.image.file) }}
-				<div class="col-sm-5">{{ form_widget(form.image.file, {'attr': {'title': 'Importer l\'image'}}) }}
+				<div class="col-sm-5 col-xs-6">{{ form_widget(form.image.file, {'attr': {'title': 'Importer l\'image'}}) }}
 				</div>
 			</div>
 			
@@ -58,11 +58,11 @@
 		<fieldset>
 			<legend>Catégories</legend>	
 				<div class="form-group">
-					<div class="col-sm-2 label-select">
+					<div class="col-sm-2 col-xs-5 label-select">
 
 					</div>
 				
-					<div class="col-xs-5 col-sm-5 select">
+					<div class="col-sm-5 col-xs-7 select">
 						{{ form_row(form.categories) }}
 					</div>
 				</div>
