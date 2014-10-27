@@ -17,8 +17,8 @@
 	<div class="text-center">
 	    <ul id="pagination" class="pagination">
 	    	{# Si la somme des nombres de pages à afficher #}
-	    	{% if (nombrePage % 3 + page) < nombrePage %}
-		    	{% for p in range(page, nombrePage % 3 + page) %}
+	    	{# {% if (nombrePage % 3 + page) < nombrePage %}
+		    	{% for p in range(page, page+2) %}
 					{% if loop.first %}
 						{% if p == 1 %}
 							<li class="disabled"><a href="#"><span>&laquo;</span></a>
@@ -28,7 +28,9 @@
 							<li><a href="{{ path('sdzblog_accueil', {'page': page-1 })}}"><span>&lsaquo;</span></a></li>
 						{% endif %}
 					{% endif %}
+
 					<li {% if p == page %}class="active"{% endif %}><a href="{{ path('sdzblog_accueil', {'page': p})}}"><span>{{ p }}</span></a></li>
+					
 					{% if loop.last %}
 						{% if p == nombrePage %}
 							<li class="disabled"><a href="#"><span>&raquo;</span></a></li>
@@ -37,11 +39,10 @@
 							<li><a href="{{ path('sdzblog_accueil', {'page': page+loop.length })}}" ><span>&rsaquo;</span></a>
 							<li><a href="{{ path('sdzblog_accueil', {'page': nombrePage })}}" ><span>&raquo;</span></a>
 						{% endif %}
-
 		    		{% endif %}
 		    	{% endfor %}
 		    {% else %}
-		    	{% for p in range(page - page % 3, nombrePage) %}
+		    	{% for p in range(page - (page % 3), nombrePage) %}
 					{% if loop.first %}
 						{% if p == 1 %}
 							<li class="disabled"><a href="#"><span>&laquo;</span></a>
@@ -58,6 +59,61 @@
 							<li class="disabled"><a href="#"><span>&raquo;</span></a></li>
 						{% else %}
 							<li><a href="{{ path('sdzblog_accueil', {'page': page+1 })}}" ><span>&rsaquo;</span></a>
+							<li><a href="{{ path('sdzblog_accueil', {'page': nombrePage })}}" ><span>&raquo;</span></a>
+						{% endif %}
+		    		{% endif %}
+		    	{% endfor %}
+		    {% endif %} #}
+
+			{% set nbLinks = 3 %}
+		    {% if nombrePage < nbLinks %}
+				{% set nbLinks = nombrePage %}
+		    {% endif %}
+
+		    {% if (page + nbLinks - 1) > nombrePage %}
+		    	{# {% set pas = 0 %}
+		    	{% if nombrePage is even %}{% set pas = 1 %}{% endif %} #}
+				{% for p in range(nombrePage-nbLinks+1, nombrePage) %}
+					{% if loop.first %}
+						{% if p == 1 %}
+							<li class="disabled"><a href="#"><span>&laquo;</span></a>
+							<li class="disabled"><a href="#"><span>&lsaquo;</span></a>
+						{% else %}
+							<li><a href="{{ path('sdzblog_accueil', {'page': 1 })}}"><span>&laquo;</span></a></li>
+							<li><a href="{{ path('sdzblog_accueil', {'page': page-1 })}}"><span>&lsaquo;</span></a></li>
+						{% endif %}
+					{% endif %}
+					<li {% if p == page %}class="active"{% endif %}><a href="{{ path('sdzblog_accueil', {'page': p})}}"><span>{{ p }}b</span></a></li>
+					{% if loop.last %}
+						{% if p == nombrePage %}
+							<li class="disabled"><a href="#"><span>&rsaquo;</span></a></li>
+							<li class="disabled"><a href="#"><span>&raquo;</span></a></li>
+						{% else %}
+							<li><a href="{{ path('sdzblog_accueil', {'page': page+1 })}}" ><span>&rsaquo;</span></a>
+							<li><a href="{{ path('sdzblog_accueil', {'page': nombrePage })}}" ><span>&raquo;</span></a>
+						{% endif %}
+		    		{% endif %}
+		    	{% endfor %}
+			{% else %}
+				{% for p in range(page, page+nbLinks-1) %}
+					{% if loop.first %}
+						{% if p == 1 %}
+							<li class="disabled"><a href="#"><span>&laquo;</span></a>
+							<li class="disabled"><a href="#"><span>&lsaquo;</span></a>
+						{% else %}
+							<li><a href="{{ path('sdzblog_accueil', {'page': 1 })}}"><span>&laquo;</span></a></li>
+							<li><a href="{{ path('sdzblog_accueil', {'page': page-1 })}}"><span>&lsaquo;</span></a></li>
+						{% endif %}
+					{% endif %}
+
+					<li {% if p == page %}class="active"{% endif %}><a href="{{ path('sdzblog_accueil', {'page': p})}}"><span>{{ p }}a</span></a></li>
+					
+					{% if loop.last %}
+						{% if p == nombrePage %}
+							<li class="disabled"><a href="#"><span>&raquo;</span></a></li>
+							<li class="disabled"><a href="#"><span>&rsaquo;</span></a></li>
+						{% else %}
+							<li><a href="{{ path('sdzblog_accueil', {'page': page+loop.length })}}" ><span>&rsaquo;</span></a>
 							<li><a href="{{ path('sdzblog_accueil', {'page': nombrePage })}}" ><span>&raquo;</span></a>
 						{% endif %}
 		    		{% endif %}
