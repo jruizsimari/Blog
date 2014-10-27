@@ -52,44 +52,17 @@
 
 			$(document).ready(function() {
 
-                // // associer une fonction à tous les liens du paginator
-                // $('#pagination a').click(function() {
-                //     // recupère le texte contenu dans la balise <span> qui elle meme est contenu dans dans <a>
-                //     var spanText = $(this).children('span').val();
 
-                //     // On récupère la valeur de l'attribut href
-                //     var href = $(this).attr('href');
-                //     if(href != '#') {
-                //             // Si la texte vaut '<<' alors
-                //             if ($(this).children('span').val() == '&laquo;') {
-                //                 var page = $('#pagination').children('li > a').eq(1).val();
-                //         };
+            // Permet de supprimer les labels ajoutés dans la page
+            //$('label[for=article_categories], label[for=article_edit_categories]').replaceWith('');
+            // il vaut mieux utiliser la fonction $('1element').replaceWith('').add('2element').replaceWith('');
 
+            $('label[for=article_categories], label[for=article_edit_categories]').text('Nom de la catégories').detach().appendTo('.label-select');
 
-                //         $(this).addClass('active');
-                //         $.ajax({
-                //             url : {{ path('sdzblog_accueil')}},
-                //             type: "GET",
-                //             beforeSend: function() { $('#zone').html('en charge.....') },
-                //             data: form.serialize(),
-                //             error: function(jqXHR, textStatus, errorThrown) { $('#zone').html('error') },
-                //             success: function(htmlResponse) { $('#zone').html(htmlResponse) }
-                //         });
-                //     }
-                    
-                // });
+            // Selectionner Le <select>
+            var select = $('select#article_categories, select#article_edit_categories').addClass('form-control');
 
-
-                // Permet de supprimer les labels ajoutés dans la page
-                //$('label[for=article_categories], label[for=article_edit_categories]').replaceWith('');
-                // il vaut mieux utiliser la fonction $('1element').replaceWith('').add('2element').replaceWith('');
-
-                $('label[for=article_categories], label[for=article_edit_categories]').text('Nom de la catégories').detach().appendTo('.label-select');
-
-                // Selectionner Le <select>
-                var select = $('select#article_categories, select#article_edit_categories').addClass('form-control');
-
-                
+            
 
 
             // déplacer le select de son emplacement d'origine pour le greffer dans la div de class .select
@@ -102,11 +75,6 @@
             $('input[type=file]').bootstrapFileInput();
             $('.file-inputs').bootstrapFileInput();
             $('input[type=file]').attr('title', 'cliquer pour importer le fichier');
-
-            // On désactive les liens avec les classes 'disabled'
-            $('.disabled a').click(function(event){
-                event.preventDefault();
-            });
 
             // On récupère la balise <div> en question qui contient
             //l'attribut « data-prototype » qui nous intéresse.
@@ -167,9 +135,6 @@
 
 
         );
-
-        // faire de l'ajax
-
 
 		</script>
 	{% endblock %}
