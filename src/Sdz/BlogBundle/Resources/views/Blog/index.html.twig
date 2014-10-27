@@ -15,55 +15,25 @@
 	</ul>
 	
 	<div class="text-center">
-	    <ul id="pagination" class="pagination">
-	    	{# Si la somme des nombres de pages à afficher #}
-	    	{% if (nombrePage % 3 + page) < nombrePage %}
-		    	{% for p in range(page, nombrePage % 3 + page) %}
-					{% if loop.first %}
-						{% if p == 1 %}
-							<li class="disabled"><a href="#"><span>&laquo;</span></a>
-							<li class="disabled"><a href="#"><span>&lsaquo;</span></a>
-						{% else %}
-							<li><a href="{{ path('sdzblog_accueil', {'page': 1 })}}"><span>&laquo;</span></a></li>
-							<li><a href="{{ path('sdzblog_accueil', {'page': page-1 })}}"><span>&lsaquo;</span></a></li>
-						{% endif %}
-					{% endif %}
-					<li {% if p == page %}class="active"{% endif %}><a href="{{ path('sdzblog_accueil', {'page': p})}}"><span>{{ p }}</span></a></li>
-					{% if loop.last %}
-						{% if p == nombrePage %}
-							<li class="disabled"><a href="#"><span>&raquo;</span></a></li>
-							<li class="disabled"><a href="#"><span>&rsaquo;</span></a></li>
-						{% else %}
-							<li><a href="{{ path('sdzblog_accueil', {'page': page+loop.length })}}" ><span>&rsaquo;</span></a>
-							<li><a href="{{ path('sdzblog_accueil', {'page': nombrePage })}}" ><span>&raquo;</span></a>
-						{% endif %}
+		<ul id="pagination" class="pagination">
+				{% if page > 1 %}
+					<li><a href="{{ path('sdzblog_accueil', {'page': page-1 })}}">&laquo;</a></li>
+				{% else %}
+					<li class="disabled"><a href="#"><span>&laquo;</span></a>
+				{% endif %}
+				{% if (nombrePage % 3 + page) >= nombrePage %}
+					{% for p in range(page - page % 3, nombrePage) %}
+						<li {% if p == page %}class="active"{% endif %}><a href="{{ path('sdzblog_accueil', {'page': p})}}">{{ p }}</a></li>
+					{% endfor %}
+					<li class="disabled"><a href="#">&raquo;</a></li>
+				{% else %}
+					{% for p in range(page, nombrePage % 3 + page) %}
+						<li {% if p == page %}class="active"{% endif %}><a href="{{ path('sdzblog_accueil', {'page': p})}}">{{ p }}</a></li>
+					{% endfor %}
 
-		    		{% endif %}
-		    	{% endfor %}
-		    {% else %}
-		    	{% for p in range(page - page % 3, nombrePage) %}
-					{% if loop.first %}
-						{% if p == 1 %}
-							<li class="disabled"><a href="#"><span>&laquo;</span></a>
-							<li class="disabled"><a href="#"><span>&lsaquo;</span></a>
-						{% else %}
-							<li><a href="{{ path('sdzblog_accueil', {'page': 1 })}}"><span>&laquo;</span></a></li>
-							<li><a href="{{ path('sdzblog_accueil', {'page': page-1 })}}"><span>&lsaquo;</span></a></li>
-						{% endif %}
-					{% endif %}
-					<li {% if p == page %}class="active"{% endif %}><a href="{{ path('sdzblog_accueil', {'page': p})}}"><span>{{ p }}</span></a></li>
-					{% if loop.last %}
-						{% if p == nombrePage %}
-							<li class="disabled"><a href="#"><span>&rsaquo;</span></a></li>
-							<li class="disabled"><a href="#"><span>&raquo;</span></a></li>
-						{% else %}
-							<li><a href="{{ path('sdzblog_accueil', {'page': page+1 })}}" ><span>&rsaquo;</span></a>
-							<li><a href="{{ path('sdzblog_accueil', {'page': nombrePage })}}" ><span>&raquo;</span></a>
-						{% endif %}
-		    		{% endif %}
-		    	{% endfor %}
-		    {% endif %}
-	    </ul>
+					<li><a href="{{ path('sdzblog_accueil', {'page': page+1 })}}" ><span>&raquo;</span></a>
+				{% endif %}
+		</ul>
 	</div>		
 {% endblock %}
 
