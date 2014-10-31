@@ -11,6 +11,8 @@ use Symfony\Component\Form\FormEvent;
 
 use Sdz\BlogBundle\Entity\CategorieRepository;
 
+use Sdz\BlogBundle\Form\EventListener\AddPublicationSubscriber;
+
 class ArticleType extends AbstractType
 {
         /**
@@ -38,25 +40,29 @@ class ArticleType extends AbstractType
                                                 'expanded' => false) )
         ;
 
-        $factory = $builder->getFormFactory();
+        //$factory = $builder->getFormFactory();
+
+        $builder->addEventSubscriber(new AddPublicationSubscriber());
 
         // On ajoute une fonction qui va écouter l'évènement PRE_SET_DATA
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, // Ici, on définit l'évènement qui nous intéresse
-                                   function (FormEvent $event) use ($factory)
-                                   {
-                                       $article = $event->getData();
-                                       // Cette condition est importante, on en reparle plus loin
-                                       if (null === $article) {
-                                           return; // On sort de la fonction lorsque $article vaut null
-                                       }
+        // $builder->addEventListener(FormEvents::PRE_SET_DATA, // Ici, on définit l'évènement qui nous intéresse
+        //                            function (FormEvent $event)
+        //                            {
+        //                                $article = $event->getData();
+        //                                // Cette condition est importante, on en reparle plus loin
+        //                                if (null === $article) {
+        //                                    return; // On sort de la fonction lorsque $article vaut null
+        //                                }
 
-                                       // Si l'article n'est pas encore publié, on ajoute le champ publication
-                                       if (false === $article->getPublication()) {
-                                           $event->getForm()->add($factory->createNamed('publication', 'checkbox', null, array('required' => false)));
-                                       } else {
-                                        $event->getForm()->remove('publication');
-                                       }
-                                   });
+        //                                // Si l'article n'est pas encore publié, on ajoute le champ publication
+        //                                if (false === $article->getPublication()) {
+        //                                    $event->getForm()->add('publication', 'checkbox', array('required' => false));
+        //                                } else {
+        //                                 $event->getForm()->remove('publication');
+        //                                }
+        //                            });
+
+
     }
     
     /**

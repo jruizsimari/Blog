@@ -4,7 +4,7 @@
 
 {% block sdzblog_body %}
 	<h2>Liste des articles</h2>
-	<ul>
+	<ul id="liste_articles">
 		{% for article in articles %}
 			{% include "SdzBlogBundle:Blog:article.html.twig" with { 'accueil': true } %}
 			<hr/>

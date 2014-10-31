@@ -38,9 +38,9 @@
 			</div>
 			{% if form.publication is defined %}
 			<div class="form-group">
-			    <div class="col-sm-2">{{ form_label(form.publication, "Publication") }}</div>
+			    <div class="col-xs-5 col-sm-2">{{ form_label(form.publication, "Publication") }}</div>
 			    {{ form_errors(form.publication) }}
-			    <div class="col-sm-5">{{ form_widget(form.publication) }}</div>
+			    <div class="col-xs-5 col-sm-5">{{ form_widget(form.publication) }}</div>
 			</div>
 			{% endif %}
 		</fieldset>

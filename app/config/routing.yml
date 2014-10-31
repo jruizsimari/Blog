@@ -2,3 +2,6 @@ sdz_blog:
     resource: "@SdzBlogBundle/Resources/config/routing.yml"
     prefix:   /blog
 
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+

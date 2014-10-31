@@ -39,9 +39,9 @@
 <hr>
 
 {% if liste_commentaires|length > 1 %}
-	<h3>Commentaires ({{ liste_commentaires|length }})  <a href="#"><i class="glyphicon glyphicon-plus-sign"></i></a></h3>
+	<h3>Commentaires ({{ liste_commentaires|length }}) <a href="#"><i class="glyphicon glyphicon-plus-sign"></i></a></h3>
 {% else %}
-	<h3>Commentaire ({{liste_commentaires|length}})<a href="#"><i class="glyphicon glyphicon-plus-sign"></i></a></h3>
+	<h3>Commentaire ({{ liste_commentaires|length }}) <a href="#"><i class="glyphicon glyphicon-plus-sign"></i></a></h3>
 {% endif %}
 {% for comment in liste_commentaires %}
 	<i>Posté par: {{ comment.auteur }}, le {{ comment.date|date('d/m/Y') }}</i>

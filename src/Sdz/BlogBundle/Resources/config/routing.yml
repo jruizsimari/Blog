@@ -1,3 +1,11 @@
+sdzblog_articles_by_page:
+    path:    articles-by-page/{page}
+    defaults: { _controller: SdzBlogBundle:Blog:articlesByPage, page:1 }
+    requirements:
+        page: \d*
+        _method: GET
+
+
 sdzblog_accueil:
     path:    /{page}
     defaults: { _controller: SdzBlogBundle:Blog:index, page:1 }

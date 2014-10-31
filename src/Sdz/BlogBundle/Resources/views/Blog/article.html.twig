@@ -1,6 +1,7 @@
 {% set accueil = accueil|default(false) %}
 
-<h2>
+<h2>	
+	
 {% if article.image is not null	%}
 		<img src="{{ asset(article.image.webPath) }}" alt="{{ article.image.alt }}" class="logo"/>
 {% endif %}
@@ -27,3 +28,4 @@
 		</i></p>
 	</div>
 {% endif %}
+

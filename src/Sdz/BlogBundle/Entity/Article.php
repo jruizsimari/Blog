@@ -110,7 +110,7 @@ class Article
         $this->nbCommentaires = 0;
 
         $this->date = new \DateTime(); // par défaut, la date de l'article est la date d'aujourd'hui
-        $this->publication = true;
+        $this->publication = false;
 
         $this->categories = new ArrayCollection();
         $this->commentaires = new ArrayCollection();

@@ -8,7 +8,8 @@
 
 	{% stylesheets filter='cssrewrite'
 	'@SdzBlogBundle/Resources/public/css/app.css'
-	'css/bootstrap.min.css' %}
+	'css/bootstrap.min.css'
+      'css/jquery.bs_pagination.min.css' %}
 		<link rel="stylesheet" href="{{ asset_url }}" type="text/css">
 	{% endstylesheets %}
 
@@ -45,13 +46,15 @@
 	
 
 	{% block javascripts %}
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-		<script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('js/bootstrap-file-input.js') }}"></script>
-		<script type="text/javascript">
+		 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		 <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+             <script type="text/javascript" src="{{ asset('js/bootstrap-file-input.js') }}"></script>
+             <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+             <script type="text/javascript" src="{{ asset('js/fos_js_routes.js') }}"></script>
+		 <script type="text/javascript">
 
 			$(document).ready(function() {
-
+                        
 
             // Permet de supprimer les labels ajoutés dans la page
             //$('label[for=article_categories], label[for=article_edit_categories]').replaceWith('');
@@ -59,7 +62,7 @@
 
             $('label[for=article_categories], label[for=article_edit_categories]').text('Nom de la catégories').detach().appendTo('.label-select');
 
-            // Selectionner Le <select>
+            // Selectionner Le <select> en fonction de la page d'édition ou de la page d'ajout d'un article.
             var select = $('select#article_categories, select#article_edit_categories').addClass('form-control');
 
             

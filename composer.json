@@ -22,7 +22,9 @@
         "jms/di-extra-bundle": "1.4.*@dev",
         "doctrine/doctrine-fixtures-bundle": "2.2.*@dev",
         "doctrine/data-fixtures":"~1.0",
-        "stof/doctrine-extensions-bundle": "dev-master"
+        "stof/doctrine-extensions-bundle": "dev-master",
+        "jms/serializer-bundle": "~0.13",
+        "friendsofsymfony/jsrouting-bundle": "@stable"
     },
     "scripts": {
         "post-install-cmd": [

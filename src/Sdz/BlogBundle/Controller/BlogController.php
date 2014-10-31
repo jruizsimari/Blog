@@ -4,6 +4,15 @@ namespace Sdz\BlogBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+//use Doctrine\ORM\Tools\Pagination\Paginator;
+use Doctrine\Common\Collections\ArrayCollection;
+
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 
 use Sdz\BlogBundle\Entity\Article;
 use Sdz\BlogBundle\Entity\Image;
@@ -16,6 +25,63 @@ use Sdz\BlogBundle\Form\ArticleEditType;
 
 class BlogController extends Controller
 {
+	public function articlesByPageAction(Request $request, $page)
+	{
+
+		$serializer = $this->get('jms_serializer');
+
+
+
+		 $encoders = array(new XmlEncoder(), new JsonEncoder());
+		 $normalizers = array(new GetSetMethodNormalizer());
+
+		 $serializer = new Serializer($normalizers, $encoders);
+
+
+		 $accueil = $request->query->get('accueil');
+		//$request = $this->getRequest();
+		if ($request->isXmlHttpRequest()) {
+			// On récupère tous les articles de la base
+		 //$page = $request->query->get('page');
+
+			//$p = $page;
+			$data = $this->getDoctrine()
+			                 ->getManager()
+			                 ->getRepository('SdzBlogBundle:Article')
+			                 ->getArticlesAjax(2, $page);
+
+			$articles = $data->getIterator();
+
+			return $this->render('SdzBlogBundle:Blog:articles-ajax.html.twig', array('articles'   => $articles,
+			                                                             'accueil'    => $accueil
+			                                                            ));
+		}
+			// $response = array();
+
+			 // foreach ($data->getIterator() as $key => $article) {
+    //      		$serializer->serialize($article, 'json');
+    //      		var_dump($serializer);
+			 //die('ok');
+
+			// $response->setContent(json_encode($paginator->getIterator()));
+			// $arts = array();
+			// foreach ($paginator->getIterator() as $key => $article) {
+			// 	$arts[$key] = new JsonResponse($article);
+			// 	$response->setData(array('$key' => $article));
+			// }
+
+			
+			//$response->setData(array('articles' => $articles[0], 'page' => $page, 'nombrePage' => ceil(count($articles)/2)));
+
+			//$response = $arts;
+
+			return $response;
+
+		//}
+				
+		}
+
+
 	public function indexAction($page) {
 		
 		// On récupère tous les articles de la base

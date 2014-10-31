@@ -151,6 +151,31 @@ class ArticleRepository extends EntityRepository
 
 		return new Paginator($query);
 	}
+
+	public function getArticlesAjax($nombreParPage, $page)
+	{
+		if ($page < 1) {
+		// On déplace la vérification du numéro de la page dans la méthode
+			throw new \InvalidArgumentException('L\'argument $page ne peut être inférieur à 1 (valeur : "'.$page.'").');
+		}
+
+		// La construction de la requête reste inchangée
+		$query = $this->createQueryBuilder('a')
+		              ->leftJoin('a.image', 'i')
+		              ->addSelect('i')
+		              ->leftJoin('a.categories', 'c')
+		              ->addSelect('c')
+		              ->orderBy('a.date', 'desc')
+		              ->getQuery();
+
+		// On définit l'article à partir duquel commencer la liste
+		$query->setFirstResult(($page - 1) * $nombreParPage)
+		// Ainsi que le nombre d'articles à afficher
+		      ->setMaxResults($nombreParPage);
+	
+		return new Paginator($query, $fetchJoinCollection = true);
+	}
+
 	public function myFindAllDQL()
 	{
 		$query = $this->_em->createQuery('SELECT a FROM SdzBlogBundle:Article a');
