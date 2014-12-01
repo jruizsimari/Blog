@@ -24,10 +24,11 @@ class ArticleType extends AbstractType
         $builder
             ->add('date', 'date', array(
                                         'widget' => 'single_text',
-                                        'format' => 'dd/MM/yyyy'))
+                                        'format' => 'dd/MM/yyyy',
+                                        'read_only' => true))
             ->add('titre', 'text')
             ->add('auteur', 'text')
-            ->add('contenu','textarea')
+            ->add('contenu','textarea', array('attr' => array('rows' => 4)))
             //->add('publication', 'checkbox', array('required' => false))
             ->add('image', new ImageType())
             ->add('categories', 'entity', array('class' => 'SdzBlogBundle:Categorie',

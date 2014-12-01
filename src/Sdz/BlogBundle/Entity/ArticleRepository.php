@@ -41,6 +41,7 @@ class ArticleRepository extends EntityRepository
 	{
 		// On récupère l'article dont l'slug est $slug ainsi que
 		// les commentaires associés.
+
 		$qb = $this->createQueryBuilder('a')
 		           ->leftJoin('a.commentaires', 'c')
 		           ->addSelect('c')
@@ -49,6 +50,21 @@ class ArticleRepository extends EntityRepository
 
 		return $qb->getQuery()
 		          ->getResult();
+	}
+
+	
+
+	public function getArticlesGroupByCategory(){
+			$qb = $this->_em->createQueryBuilder('a');
+
+			$qb->from('SdzBlogBundle:Article', 'a')
+		           ->Join('a.categories', 'c')
+		           ->select('c.slug, c.nom, count(c.nom) AS nombre')
+		           ->groupBy('c.nom');
+
+		return $qb->getQuery()
+		          ->getArrayResult();
+
 	}
 
 	public function getArtCommentsCatsCompsImg($slug){
@@ -122,6 +138,35 @@ class ArticleRepository extends EntityRepository
 
 		// Or
 		return $this->findBy(array(), array('date' => 'DESC'));
+	}
+	
+	public function getArticlesByCategory($nombreParPage, $page, $cat)
+	{
+		if ($page < 1) {
+			throw new \InvalidArgumentException('L\'argument $page ne peut être inférieur à 1 (valeur : "'.$page.'").');
+		}
+
+		$cats[] = $cat;
+
+				// La construction de la requête reste inchangée
+		$query = $this->createQueryBuilder('a')
+		              ->leftJoin('a.image', 'i')
+		              ->addSelect('i');
+
+		        $query->leftJoin('a.categories', 'c')
+		              ->where($query->expr()->in('c.nom', $cats))
+		              ->addSelect('c')
+		              ->orderBy('a.date', 'desc')
+		              ->getQuery();
+
+		$query->setFirstResult(($page - 1) * $nombreParPage)
+              ->setMaxResults($nombreParPage);
+        $paginator = new Paginator($query, $fetchJoinCollection = false);
+        // la taille du résultat
+        $c = count($paginator);
+        //var_dump('nombre'.$c);
+		return $paginator;
+
 	}
 
 	// Les paramètres pour faire un pagination

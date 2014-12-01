@@ -1,22 +1,8 @@
-sdzblog_articles_by_page:
-    path:    articles-by-page/{page}
-    defaults: { _controller: SdzBlogBundle:Blog:articlesByPage, page:1 }
-    requirements:
-        page: \d*
-        _method: GET
-
-
 sdzblog_accueil:
     path:    /{page}
     defaults: { _controller: SdzBlogBundle:Blog:index, page:1 }
     requirements:
         page: \d*
-
-sdzblog_voir:
-    path:    /article/{slug}
-    defaults: { _controller: SdzBlogBundle:Blog:voir}
-    requirements:
-        slug: ^([a-z1-9]+-)*[a-z1-9]+$
 
 sdzblog_ajouter:
     path:    /ajouter
@@ -27,8 +13,29 @@ sdzblog_modifier:
     defaults: { _controller: SdzBlogBundle:Blog:modifier }
     requirements:
         slug: ^([a-z1-9]+-)*[a-z1-9]+$
+
 sdzblog_supprimer:
     path:    /supprimer/{slug}
     defaults: { _controller: SdzBlogBundle:Blog:supprimer }
     requirements:
         slug: ^([a-z1-9]+-)*[a-z1-9]+$
+
+sdzblog_voir:
+    path:    /article/{slug}
+    defaults: { _controller: SdzBlogBundle:Blog:voir}
+    requirements:
+        slug: ^([a-z1-9]+-)*[a-z1-9]+$
+
+sdzblog_articles_by_page:
+    path:    articles-by-page/{page}
+    defaults: { _controller: SdzBlogBundle:Blog:articlesByPage, page:1 }
+    requirements:
+        page: \d*
+        _method: GET
+
+sdzblog_categorie:
+    path:     /{cat}/{page}
+    defaults: { _controller: SdzBlogBundle:Blog:articlesByCategorie, page:1 }
+    requirements:
+        cat: ^([a-z1-9]+-)*[a-z1-9]+$
+        page: \d*

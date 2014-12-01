@@ -30,5 +30,12 @@ li.previous > input {
 	margin-left: 10px;
 }
 
+.height-text {
+	padding-top: 50px;
+	height: 200px;
+
+}
+
+
 /*select, input, label { vertical-align:middle}*/
 

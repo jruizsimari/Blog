@@ -13,7 +13,7 @@
 {% endif %}
 </h2>
 
-<i>Le {{ article.date|date('d/m/Y') }}, par {{ article.auteur }}</i>
+<i>{{ 'article.the'|trans }} {{ article.date|date('d/m/Y')}}, {{ 'article.by'|trans }} {{ article.auteur }}</i>
 <div class="well">
 	{{ article.contenu }}
 </div>
@@ -21,7 +21,7 @@
 {% if article.categories|length > 0 %}
 	<div class="well well-sm">
 		<p><i>
-			Catégories :
+			{{ 'article.category'| transchoice(article.categories|length) }} :
 			{% for categorie in article.categories %}
 				{{ categorie.nom }} {% if not loop.last %}, {% endif %}
 			{% endfor %}

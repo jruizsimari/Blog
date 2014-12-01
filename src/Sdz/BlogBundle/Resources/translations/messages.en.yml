@@ -1,0 +1,31 @@
+index:
+    category: Categories
+    membre_space: Membre Space
+    title: Index
+    header_title: My Symfony2's Project
+    header_content: "This project is powered by Symfony2 , and build with OpenClassRoom's tutorial"
+    link: Read the tutorial
+    login: Login
+    blog_name: The blog
+    welcome_blog: Blog's Welcome
+    add_article: Add an article
+    list_articles: List of articles
+    no_articles: There is no articles yet
+    last_articles: The Last articles
+article:
+    the: The
+    by: by
+    category: Category|Categories
+    title: Delete the article
+    delete: Delete
+    look:
+        title: Reading an article
+    skills:
+         content: Skills used in this article :
+    link:
+        edit: Edit the article
+        delete: Delete the article
+        return: Return to the list
+previous: Return to the article
+comments: Comment|Comments
+

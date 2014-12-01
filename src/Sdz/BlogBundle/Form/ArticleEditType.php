@@ -16,8 +16,8 @@ class ArticleEditType extends ArticleType
     {
         parent::buildForm($builder, $options);
 
-        $builder->remove('date');
-        ;
+        //$builder->remove('date');
+        //;
     }
     
     /**

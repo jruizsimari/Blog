@@ -7,14 +7,18 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\ExecutionContextInterface;
 
-
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Sdz\BlogBundle\Validator\AntiFlood;
 /**
  * Article
  *
  * @ORM\Table(name="article")
  * @ORM\Entity(repositoryClass="Sdz\BlogBundle\Entity\ArticleRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @Assert\Callback(methods={"contenuValide"})
+ * @UniqueEntity(fields="titre", message="Un article existe déjà avec ce titre.")
  */
 class Article
 {
@@ -72,7 +76,7 @@ class Article
     /**
      * @var string
      *
-     * @ORM\Column(name="titre", type="string", length=255)
+     * @ORM\Column(name="titre", type="string", length=255, unique=true)
      * @Assert\Length(min="10", minMessage="Le titre doit faire au moins {{ limit }} caractères")
      */
     private $titre;
@@ -90,6 +94,7 @@ class Article
      *
      * @ORM\Column(name="contenu", type="text")
      * @Assert\NotBlank()
+     * @AntiFlood()
      */
     private $contenu;
 
@@ -436,6 +441,19 @@ class Article
     public function getArticleCompetence()
     {
         return $this->articleCompetence;
+    }
+
+    public function contenuValide(ExecutionContextInterface $context)
+    {
+        $mots_interdits = array('putain', 'connard', 'foutre');
+
+        // On vérifie que le contenu ne contient pas l'un des mots
+        if (preg_match('#'.implode('|', $mots_interdits).'#', mb_strtolower($this->getContenu()))) {
+            // La règle est violée, on définit l'erreur et son message
+            // 1er argument : on dit quel attribut l'erreur concerne, ici "contenu"
+            // 2e argument : le message d'erreur
+            $context->addViolationAt('contenu', 'Contenu invalide car il contient un mot interdit.', array(), null);
+        }
     }
 
 }

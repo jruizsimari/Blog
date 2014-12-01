@@ -25,18 +25,34 @@ use Sdz\BlogBundle\Form\ArticleEditType;
 
 class BlogController extends Controller
 {
+	public function articlesByCategorieAction($page, $cat)
+	{
+		$articles = $this->getDoctrine()
+		                 ->getManager()
+		                 ->getRepository('SdzBlogBundle:Article')
+		                 ->getArticlesByCategory(2, $page, $cat);
+		
+		return $this->render('SdzBlogBundle:Blog:categorie.html.twig', array('articles' => $articles,
+			                                                                       'page' => $page,
+			                                                                       'cat' => $cat,
+			                                                                       'accueil' => true,
+			                                                                       'nombrePage' => ceil(count($articles)/2)));
+
+	}
+
 	public function articlesByPageAction(Request $request, $page)
 	{
 
-		$serializer = $this->get('jms_serializer');
+		//$request->setLocale('en_EN');
+
+		/*$serializer = $this->get('jms_serializer');
 
 
 
 		 $encoders = array(new XmlEncoder(), new JsonEncoder());
 		 $normalizers = array(new GetSetMethodNormalizer());
 
-		 $serializer = new Serializer($normalizers, $encoders);
-
+		 $serializer = new Serializer($normalizers, $encoders);*/
 
 		 $accueil = $request->query->get('accueil');
 		//$request = $this->getRequest();
@@ -53,7 +69,9 @@ class BlogController extends Controller
 			$articles = $data->getIterator();
 
 			return $this->render('SdzBlogBundle:Blog:articles-ajax.html.twig', array('articles'   => $articles,
-			                                                             'accueil'    => $accueil
+			                                                             'accueil'    => $accueil,
+			                                                             'page'       => $page,
+			                                                             'nombrePage' => ceil(count($articles)/2)
 			                                                            ));
 		}
 			// $response = array();
@@ -257,6 +275,18 @@ class BlogController extends Controller
 
 	    return $this->render('SdzBlogBundle:Blog:menu.html.twig', array('liste_articles' => $liste));
 	    // C'est ici tout l'intérêt : le contrôleur passe les variables nécessaire au template !
+	}
+
+	public function menuCategoriesAction()
+	{
+		$em = $this->getDoctrine()
+		           ->getManager();
+
+		$listeCats = $em->getRepository('SdzBlogBundle:Article')->getArticlesGroupByCategory();
+
+		//var_dump($listeCats);
+		//die();
+		return $this->render('SdzBlogBundle:Blog:menu-categories.html.twig', array('liste_cats' => $listeCats));
 	}
 
 }

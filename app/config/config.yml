@@ -4,7 +4,7 @@ imports:
 
 framework:
     #esi:             ~
-    #translator:      { fallback: "%locale%" }
+    translator:      { fallback: "%locale%" }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -77,6 +77,34 @@ stof_doctrine_extensions:
         default:
             sluggable: true
 
-# app/config/config.yml
+# FOS\JSRoutingBundle Configuration
 fos_js_routing:
     routes_to_expose: [ 'sdzblog_articles_by_page' ]
+
+# FOS\USERBundle Configuration
+fos_user:
+    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
+    firewall_name: main
+    user_class: Sdz\UserBundle\Entity\User
+    # pour activer l'enregistrement d'un nouvel utilisateur par mail
+    registration:
+        confirmation:
+            enabled:    true
+    # configuration de tous les m
+    from_email:
+        address:        noreply@myblog.com
+        sender_name:    Info My Blog
+    # configuration pour le mail d'enregistrement
+    registration:
+        confirmation:
+            from_email:
+                address:        registration@myblog.com
+                sender_name:    Procedure de création du compte
+    # configuration pour le mail de récupération du mot de passe
+    resetting:
+        email:
+            from_email:
+                address:        resetting@acmedemo.com
+                sender_name:    Acme Demo Resetting
+    # configuration du template du mail
+    

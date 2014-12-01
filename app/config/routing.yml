@@ -5,3 +5,5 @@ sdz_blog:
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
 
+fos_user:
+    resource: "@UserBundle/Resources/config/routing.yml"

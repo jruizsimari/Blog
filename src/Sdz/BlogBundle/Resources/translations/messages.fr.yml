@@ -1,0 +1,30 @@
+index:
+    category: Catégories
+    membre_space: Espace Membre
+    title: Accueil
+    header_title: Mon Projet Symfony2
+    header_content: "Ce projet est propulsé par Symfony2, et construit grâce au tutoriel OpenClassRoom"
+    link: Lire le tutoriel
+    login: Connexion
+    blog_name: Le blog
+    welcome_blog: Accueil du blog
+    add_article: Ajouter un article
+    list_articles: Listes des articles
+    no_articles: Pas encore d'articles
+    last_articles: Les derniers articles
+article:
+    the: Le
+    by: par
+    category: Catégorie|Catégories
+    delete: Supprimer
+    title: Supprimer l'article
+    look:
+        title: Lecture d'un article
+    skills:
+         content: Compétences utilisées dans cet article :
+    link:
+        edit: Modifier l'article
+        delete: Supprimer l'article
+        return: Retour à la liste
+previous: "Retour à l'article"
+comments: Commentaire|Commentaires

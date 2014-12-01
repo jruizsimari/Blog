@@ -1,5 +1,5 @@
 {# Ce template n'hérite de personne, tout comme le template inclus avec {% include %} #}
-<h3>Les derniers articles</h3>
+<h3>{{ 'index.last_articles'|trans }}</h3>
 <ul>
 	<ul class="nav nav-pills nav-stacked">
 		{% for article in liste_articles %}

@@ -2,7 +2,7 @@
 
 
 {% block title %}
-	Lecture d'un article - {{ parent() }}
+	{{ 'article.look.title'|trans }} - {{ parent() }}
 {% endblock %}
 
 {% block sdzblog_body %}
@@ -10,7 +10,7 @@
 
 {% if liste_articleCompetence|length > 0 %}
 <div>
-	Compétences utilisées dans cet article :
+	{{ 'article.skills.content'|trans }}
 	<ul class="competences">
 		{% for articleCompetence in liste_articleCompetence %}
 			{# On déclenche une requete à chaque tour de boucle pour chercher la competence associée à l'article
@@ -25,24 +25,23 @@
 <p>
 	<ul class="pager">		
 		<li>
-			<a href="{{ path('sdzblog_accueil') }}" class="btn"><i class="glyphicon glyphicon-chevron-left"></i> Retour à la liste</a>
+			<a href="{{ path('sdzblog_accueil') }}" class="btn"><i class="glyphicon glyphicon-chevron-left"></i>  {{ 'article.link.return'|trans }}</a>
 		</li>
-		<li>
-			<a href="{{ path('sdzblog_modifier', {'slug': article.slug}) }}" class="btn"><i class="glyphicon glyphicon-edit"></i> Modifier l'article</a>
-		</li>
-		<li>
-			<a href="{{ path('sdzblog_supprimer', {'slug': article.slug }) }}" class="btn"><i class="glyphicon glyphicon-remove-circle"></i> Supprimer l'article</a>
-		</li>
+		{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+			<li>
+				<a href="{{ path('sdzblog_modifier', {'slug': article.slug}) }}" class="btn"><i class="glyphicon glyphicon-edit"></i> {{ 'article.link.edit'|trans }}</a>
+			</li>
+			<li>
+				<a href="{{ path('sdzblog_supprimer', {'slug': article.slug }) }}" class="btn"><i class="glyphicon glyphicon-remove-circle"></i>  {{ 'article.link.delete'|trans }}</a>
+			</li>
+		{% endif %}
 	</ul>
 </p>
 
 <hr>
 
-{% if liste_commentaires|length > 1 %}
-	<h3>Commentaires ({{ liste_commentaires|length }}) <a href="#"><i class="glyphicon glyphicon-plus-sign"></i></a></h3>
-{% else %}
-	<h3>Commentaire ({{ liste_commentaires|length }}) <a href="#"><i class="glyphicon glyphicon-plus-sign"></i></a></h3>
-{% endif %}
+	<h3>{{ 'comments'|transchoice(liste_commentaires|length) }} ({{ liste_commentaires|length }}) <a href="#"><i class="glyphicon glyphicon-plus-sign"></i></a></h3>
+
 {% for comment in liste_commentaires %}
 	<i>Posté par: {{ comment.auteur }}, le {{ comment.date|date('d/m/Y') }}</i>
 	<div class="well">

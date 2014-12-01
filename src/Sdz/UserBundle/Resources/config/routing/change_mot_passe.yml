@@ -1,0 +1,7 @@
+#config/routing/
+
+fos_user_change_password:
+    path:      /change-password
+    defaults:  { _controller: FOSUserBundle:Security:logout }
+    requirements:
+        _method:  GET|POST

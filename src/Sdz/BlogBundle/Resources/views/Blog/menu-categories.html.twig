@@ -1,0 +1,6 @@
+<h3>{{ 'index.category'|trans }}</h3>
+<ul class="nav nav-pills nav-stacked">
+	{% for cat in liste_cats %}
+  		<li role="presentation"><a href="{{ path('sdzblog_categorie', {'cat': cat.slug })}}">{{ cat.nom }}<span class="badge">{{ cat.nombre }}</span></a></li>
+	{% endfor %}
+</ul>
